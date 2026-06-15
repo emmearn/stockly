@@ -363,3 +363,125 @@ La POC e riuscita quando:
 * i test minimi passano.
 
 Stato verifica: criteri coperti dalla POC, da rivalidare a ogni modifica rilevante.
+
+---
+
+# 9. Deploy POC su Render Free
+
+La POC puo essere pubblicata su Render Free usando Docker.
+
+## Premesse
+
+La POC usa:
+
+* Spring Boot;
+* profilo `poc`;
+* H2 in-memory;
+* Flyway;
+* seed demo automatico.
+
+Conseguenze:
+
+* non serve configurare un database esterno;
+* i dati vengono ricreati a ogni riavvio;
+* Render Free puo mettere il servizio in sleep dopo inattivita;
+* quando il servizio si riavvia, H2 riparte da zero.
+
+Questo comportamento e accettabile per la POC.
+
+## File Necessari
+
+Il deploy usa:
+
+* `Dockerfile`;
+* `.dockerignore`;
+* repository GitHub collegato a Render.
+
+Il container espone internamente la porta `8080`, ma su Render usa automaticamente la variabile `PORT` fornita dalla piattaforma.
+
+## Variabili Ambiente
+
+Configurare su Render:
+
+```text
+SPRING_PROFILES_ACTIVE=poc
+JAVA_OPTS=-XX:MaxRAMPercentage=75.0
+```
+
+`SPRING_PROFILES_ACTIVE=poc` e anche gia impostata nel `Dockerfile`, ma tenerla esplicita su Render rende il deploy piu leggibile.
+
+## Deploy da Dashboard Render
+
+Passi:
+
+1. Creare o accedere a un account Render.
+2. Collegare il repository GitHub che contiene Stockly.
+3. Cliccare `New`.
+4. Scegliere `Web Service`.
+5. Selezionare il repository Stockly.
+6. Impostare:
+   * `Environment`: `Docker`;
+   * `Branch`: branch desiderato;
+   * `Instance Type`: `Free`.
+7. Aggiungere le variabili ambiente indicate sopra.
+8. Impostare, se richiesto, health check path:
+
+```text
+/stock
+```
+
+9. Avviare il deploy.
+
+## Verifica
+
+Quando Render completa il deploy, aprire l'URL pubblico generato.
+
+Pagine da verificare:
+
+```text
+/stock
+/orders/new
+/orders
+/h2-console
+```
+
+Parametri H2:
+
+```text
+JDBC URL: jdbc:h2:mem:stockly
+User: sa
+Password:
+```
+
+Nota: la console H2 e utile solo per la POC. In ambienti successivi andra disabilitata.
+
+## Limiti Render Free
+
+Render Free e adatto alla POC, non alla produzione.
+
+Limiti principali:
+
+* il servizio puo andare in sleep dopo inattivita;
+* il primo accesso dopo sleep puo essere lento;
+* il filesystem e temporaneo;
+* l'app puo essere riavviata dalla piattaforma;
+* con H2 in-memory i dati demo vengono ricreati a ogni riavvio.
+
+## Troubleshooting
+
+### Il servizio non parte
+
+Controllare i log Render e verificare:
+
+* build Docker completata;
+* Java 21 usato correttamente;
+* profilo `poc` attivo;
+* porta letta dalla variabile `PORT`.
+
+### La pagina e lenta al primo accesso
+
+Su Render Free e normale dopo sleep. Attendere circa un minuto e ricaricare.
+
+### I dati spariscono
+
+Normale per la POC: H2 e in-memory. I dati demo vengono ricreati dal seeder a ogni avvio.

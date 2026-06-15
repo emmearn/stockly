@@ -1,0 +1,13 @@
+.git
+.idea
+.m2
+target
+
+*.log
+*.pid
+
+.env
+.env.*
+!.env.example
+
+HELP.md
