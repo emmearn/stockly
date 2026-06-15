@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Stockly
 
 Stockly e un'applicazione web monolitica per la gestione di magazzini, giacenze e ordini interni.
@@ -70,3 +71,6 @@ Gli ordini demo includono gia stati `REQUIRED`, `APPROVED` e `CANCELED`.
 * `docs/domain-rules.md`
 * `docs/architecture.md`
 * `docs/development-guidelines.md`
+=======
+# stockly
+>>>>>>> ab6560c909def370907592e4d99ce5d09747a14c
