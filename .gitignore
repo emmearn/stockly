@@ -1,0 +1,69 @@
+# Maven
+target/
+.m2/
+.mvn/wrapper/maven-wrapper.jar
+HELP.md
+
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+# Java
+*.class
+*.log
+hs_err_pid*
+replay_pid*
+
+# Spring Boot
+spring.log
+
+# Local configuration
+.env
+.env.*
+!.env.example
+application-local.properties
+application-*.local.properties
+
+# H2 file databases
+*.db
+*.mv.db
+*.trace.db
+
+# IDE - IntelliJ IDEA
+.idea/
+*.iws
+*.iml
+*.ipr
+
+# IDE - Eclipse / STS
+.apt_generated/
+.classpath
+.factorypath
+.project
+.settings/
+.springBeans
+.sts4-cache/
+
+# IDE - NetBeans
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+# IDE - VS Code
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+*.swo

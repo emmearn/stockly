@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Stockly - Nuovo ordine</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<header>
+  <div class="topbar">
+    <a class="brand" href="/stock">Stockly</a>
+    <nav aria-label="Navigazione principale">
+      <a href="/stock">Stock</a>
+      <a href="/orders/new">Nuovo ordine</a>
+      <a href="/orders">Ordini</a>
+    </nav>
+  </div>
+</header>
+<main>
+  <div class="page-title">
+    <div>
+      <h1>Nuovo ordine</h1>
+      <p class="muted">POC: un articolo, un magazzino, una quantita.</p>
+    </div>
+    <a class="button secondary" href="/stock">Torna allo stock</a>
+  </div>
+
+  <div class="alert error" th:if="${error}" th:text="${error}">Errore</div>
+
+  <form class="form-panel" action="/orders" method="post" th:object="${form}">
+    <div class="field">
+      <label for="itemId">Articolo</label>
+      <select id="itemId" th:field="*{itemId}">
+        <option value="">Seleziona articolo</option>
+        <option th:each="item : ${items}" th:value="${item.id}"
+                th:text="${item.name + ' - ' + item.brand + ' (' + item.barcode + ')'}">Bullone M8</option>
+      </select>
+      <div class="field-error" th:if="${#fields.hasErrors('itemId')}" th:errors="*{itemId}">Errore articolo</div>
+    </div>
+
+    <div class="field">
+      <label for="warehouseId">Magazzino</label>
+      <select id="warehouseId" th:field="*{warehouseId}">
+        <option value="">Seleziona magazzino</option>
+        <option th:each="warehouse : ${warehouses}" th:value="${warehouse.id}"
+                th:text="${warehouse.name}">Milano</option>
+      </select>
+      <div class="field-error" th:if="${#fields.hasErrors('warehouseId')}" th:errors="*{warehouseId}">Errore magazzino</div>
+    </div>
+
+    <div class="availability-panel" id="availabilityPanel" aria-live="polite">
+      <span class="muted">Seleziona articolo e magazzino per vedere la disponibilita.</span>
+    </div>
+
+    <div hidden>
+      <span th:each="stock : ${stockRows}"
+            class="stock-data"
+            th:attr="data-item-id=${stock.item.id},data-warehouse-id=${stock.warehouse.id},data-quantity=${stock.quantity}"></span>
+    </div>
+
+    <div class="field">
+      <label for="quantity">Quantita</label>
+      <input id="quantity" type="number" min="1" th:field="*{quantity}">
+      <div class="field-error" th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}">Errore quantita</div>
+    </div>
+
+    <button type="submit">Crea ordine</button>
+  </form>
+</main>
+<script>
+  const itemSelect = document.getElementById('itemId');
+  const warehouseSelect = document.getElementById('warehouseId');
+  const quantityInput = document.getElementById('quantity');
+  const availabilityPanel = document.getElementById('availabilityPanel');
+  const stockRows = Array.from(document.querySelectorAll('.stock-data'));
+
+  function updateAvailability() {
+    const itemId = itemSelect.value;
+    const warehouseId = warehouseSelect.value;
+
+    if (!itemId || !warehouseId) {
+      availabilityPanel.innerHTML = '<span class="muted">Seleziona articolo e magazzino per vedere la disponibilita.</span>';
+      quantityInput.removeAttribute('max');
+      return;
+    }
+
+    const stock = stockRows.find((row) =>
+      row.dataset.itemId === itemId && row.dataset.warehouseId === warehouseId
+    );
+    const quantity = stock ? Number(stock.dataset.quantity) : 0;
+    quantityInput.max = String(quantity);
+    if (quantity > 0 && Number(quantityInput.value) > quantity) {
+      quantityInput.value = String(quantity);
+    }
+
+    availabilityPanel.innerHTML =
+      '<strong>Disponibilita:</strong> ' + quantity + ' pezzi nel magazzino selezionato.';
+  }
+
+  itemSelect.addEventListener('change', updateAvailability);
+  warehouseSelect.addEventListener('change', updateAvailability);
+  updateAvailability();
+</script>
+</body>
+</html>

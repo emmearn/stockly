@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Stockly - Stock</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<header>
+  <div class="topbar">
+    <a class="brand" href="/stock">Stockly</a>
+    <nav aria-label="Navigazione principale">
+      <a href="/stock">Stock</a>
+      <a href="/orders/new">Nuovo ordine</a>
+      <a href="/orders">Ordini</a>
+    </nav>
+  </div>
+</header>
+<main>
+  <div class="page-title">
+    <div>
+      <h1>Disponibilita</h1>
+      <p class="muted">Giacenze demo caricate nel database H2 in-memory.</p>
+    </div>
+    <a class="button" href="/orders/new">Nuovo ordine</a>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+      <tr>
+        <th>Articolo</th>
+        <th>Barcode</th>
+        <th>Marca</th>
+        <th>Tipologia</th>
+        <th>Magazzino</th>
+        <th class="number">Quantita</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="stock : ${stocks}">
+        <td th:text="${stock.item.name}">Bullone M8</td>
+        <td th:text="${stock.item.barcode}">800000000001</td>
+        <td th:text="${stock.item.brand}">Ferramenta Nord</td>
+        <td th:text="${stock.item.type}">Bulloneria</td>
+        <td th:text="${stock.warehouse.name}">Milano</td>
+        <td class="number" th:text="${stock.quantity}">50</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</main>
+</body>
+</html>

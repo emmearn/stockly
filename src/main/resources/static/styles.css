@@ -1,0 +1,278 @@
+:root {
+  color-scheme: light;
+  --bg: #f7f8fa;
+  --surface: #ffffff;
+  --text: #17202a;
+  --muted: #5d6875;
+  --line: #d9dee5;
+  --accent: #176b87;
+  --accent-strong: #0f5065;
+  --danger: #a23b3b;
+  --danger-strong: #7c2d2d;
+  --success-bg: #e7f5ec;
+  --success-text: #245c38;
+  --error-bg: #fbeaea;
+  --error-text: #7c2d2d;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  line-height: 1.45;
+}
+
+header {
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+}
+
+.topbar {
+  align-items: center;
+  display: flex;
+  gap: 24px;
+  justify-content: space-between;
+  margin: 0 auto;
+  max-width: 1120px;
+  min-height: 64px;
+  padding: 0 20px;
+}
+
+.brand {
+  color: var(--text);
+  font-size: 20px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+nav {
+  display: flex;
+  gap: 8px;
+}
+
+nav a,
+.button,
+button {
+  align-items: center;
+  background: var(--accent);
+  border: 1px solid var(--accent);
+  border-radius: 6px;
+  color: #ffffff;
+  cursor: pointer;
+  display: inline-flex;
+  font: inherit;
+  font-weight: 600;
+  justify-content: center;
+  min-height: 38px;
+  padding: 8px 12px;
+  text-decoration: none;
+}
+
+nav a {
+  background: transparent;
+  color: var(--accent);
+}
+
+nav a:hover,
+.button:hover,
+button:hover {
+  background: var(--accent-strong);
+  border-color: var(--accent-strong);
+  color: #ffffff;
+}
+
+.button.secondary {
+  background: #ffffff;
+  color: var(--accent);
+}
+
+.button.secondary:hover {
+  background: var(--accent);
+  color: #ffffff;
+}
+
+button.danger {
+  background: var(--danger);
+  border-color: var(--danger);
+}
+
+button.danger:hover {
+  background: var(--danger-strong);
+  border-color: var(--danger-strong);
+}
+
+main {
+  margin: 0 auto;
+  max-width: 1120px;
+  padding: 28px 20px 48px;
+}
+
+.page-title {
+  align-items: flex-start;
+  display: flex;
+  gap: 16px;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+h1 {
+  font-size: 28px;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.muted {
+  color: var(--muted);
+  margin: 6px 0 0;
+}
+
+.alert {
+  border-radius: 6px;
+  margin-bottom: 16px;
+  padding: 12px 14px;
+}
+
+.alert.success {
+  background: var(--success-bg);
+  color: var(--success-text);
+}
+
+.alert.error {
+  background: var(--error-bg);
+  color: var(--error-text);
+}
+
+.table-wrap {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  overflow-x: auto;
+}
+
+table {
+  border-collapse: collapse;
+  min-width: 760px;
+  width: 100%;
+}
+
+th,
+td {
+  border-bottom: 1px solid var(--line);
+  padding: 12px 14px;
+  text-align: left;
+  vertical-align: top;
+}
+
+th {
+  background: #eef2f5;
+  color: #344250;
+  font-size: 13px;
+  text-transform: uppercase;
+}
+
+tr:last-child td {
+  border-bottom: 0;
+}
+
+.number {
+  text-align: right;
+}
+
+.status {
+  border-radius: 999px;
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 700;
+  padding: 4px 8px;
+}
+
+.status.REQUIRED {
+  background: #fff4d8;
+  color: #6b4d00;
+}
+
+.status.APPROVED {
+  background: #e7f5ec;
+  color: #245c38;
+}
+
+.status.CANCELED,
+.status.REJECTED {
+  background: #fbeaea;
+  color: #7c2d2d;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.actions form {
+  margin: 0;
+}
+
+.form-panel {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  max-width: 640px;
+  padding: 20px;
+}
+
+.field {
+  margin-bottom: 16px;
+}
+
+.availability-panel {
+  background: #eef7fa;
+  border: 1px solid #c7dde5;
+  border-radius: 6px;
+  color: #173f4c;
+  margin-bottom: 16px;
+  padding: 12px 14px;
+}
+
+label {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+select,
+input {
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  font: inherit;
+  min-height: 42px;
+  padding: 8px 10px;
+  width: 100%;
+}
+
+.field-error {
+  color: var(--danger);
+  font-size: 14px;
+  margin-top: 6px;
+}
+
+@media (max-width: 700px) {
+  .topbar,
+  .page-title {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  nav {
+    flex-wrap: wrap;
+  }
+
+  h1 {
+    font-size: 24px;
+  }
+}

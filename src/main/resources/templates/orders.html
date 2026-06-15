@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Stockly - Ordini</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<header>
+  <div class="topbar">
+    <a class="brand" href="/stock">Stockly</a>
+    <nav aria-label="Navigazione principale">
+      <a href="/stock">Stock</a>
+      <a href="/orders/new">Nuovo ordine</a>
+      <a href="/orders">Ordini</a>
+    </nav>
+  </div>
+</header>
+<main>
+  <div class="page-title">
+    <div>
+      <h1>Ordini</h1>
+      <p class="muted">Workflow POC con approvazione e cancellazione.</p>
+    </div>
+    <a class="button" href="/orders/new">Nuovo ordine</a>
+  </div>
+
+  <div class="alert success" th:if="${success}" th:text="${success}">Operazione completata</div>
+  <div class="alert error" th:if="${error}" th:text="${error}">Errore</div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+      <tr>
+        <th>ID</th>
+        <th>Richiedente</th>
+        <th>Stato</th>
+        <th>Creazione</th>
+        <th>Righe</th>
+        <th>Azioni</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="row : ${orders}">
+        <td th:text="${row.order.id}">1</td>
+        <td th:text="${row.requestedEvent.authorizedByUserId}">demo.user</td>
+        <td><span class="status" th:classappend="${row.order.status}" th:text="${row.order.status}">REQUIRED</span></td>
+        <td th:text="${#temporals.format(row.requestedEvent.authorizedAt, 'yyyy-MM-dd HH:mm')}">2026-06-11 10:00</td>
+        <td>
+          <div th:each="line : ${row.order.items}">
+            <span th:text="${line.item.name}">Bullone M8</span>
+            <span> - </span>
+            <span th:text="${line.warehouse.name}">Milano</span>
+            <span> x </span>
+            <span th:text="${line.quantity}">5</span>
+          </div>
+        </td>
+        <td>
+          <div class="actions" th:if="${row.order.status.name() == 'REQUIRED'}">
+            <form th:action="@{/orders/{id}/approve(id=${row.order.id})}" method="post">
+              <button type="submit">Approva</button>
+            </form>
+            <form th:action="@{/orders/{id}/cancel(id=${row.order.id})}" method="post">
+              <button class="danger" type="submit">Cancella</button>
+            </form>
+          </div>
+          <span class="muted" th:unless="${row.order.status.name() == 'REQUIRED'}">Stato finale</span>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</main>
+</body>
+</html>
