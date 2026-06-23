@@ -1,4 +1,4 @@
-package com.tuna.stockly.order;
+package com.tuna.stockly.entity;
 
 public enum OrderStatus {
 	REQUIRED,

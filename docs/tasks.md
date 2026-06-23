@@ -178,10 +178,10 @@ Output:
 
 ## P0 - Consolidamento
 
-* `todo` Rilanciare `mvn test` con JDK locale funzionante.
-* `todo` Decidere struttura package definitiva.
-* `todo` Documentare la decisione package in `docs/decisions.md`.
-* `todo` Aggiornare README con nuova struttura documentale finale.
+* `todo` Rilanciare `mvn test` con JDK locale funzionante dall'ambiente utente.
+* `done` Decidere struttura package definitiva.
+* `done` Documentare la decisione package in `docs/decisions.md`.
+* `done` Aggiornare README con nuova struttura documentale finale.
 
 ## P1 - Fondazione
 
@@ -251,9 +251,9 @@ Output:
 
 # 5. Technical Debt
 
-* `P0 todo` Risolvere definitivamente problemi locali di JDK/Maven su Windows.
-* `P0 todo` Rilanciare test dopo ultime modifiche audit e UI disponibilita.
-* `P1 todo` Rivalutare package structure.
+* `P0 todo` Verificare definitivamente JDK/Maven dall'ambiente utente.
+* `P0 todo` Rilanciare test dopo refactor package.
+* `P1 done` Rivalutare package structure.
 * `P1 todo` Sostituire `demo.user` con utente autenticato.
 * `P1 todo` Disabilitare H2 console fuori da POC.
 * `P1 todo` Migliorare gestione errori controller.

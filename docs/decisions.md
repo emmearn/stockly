@@ -196,3 +196,39 @@ La POC privilegia esplicitezza e controllo delle entity JPA.
 * Piu codice boilerplate.
 * Regole entity piu visibili.
 * Lombok potra essere introdotto dopo con regole strette.
+
+---
+
+# ADR-009 - Package per Layer Tecnici
+
+## Decisione
+
+Stockly usa una struttura package per layer tecnici:
+
+```text
+config
+dto
+entity
+exception
+repository
+service
+web
+```
+
+## Motivazione
+
+Il progetto e ancora piccolo e una struttura per layer tecnici rende immediatamente visibile la responsabilita di ogni classe.
+
+Questa scelta rispecchia la preferenza progettuale attuale ed e diffusa nei monoliti Spring Boot di dimensione contenuta.
+
+## Alternative Considerate
+
+* Package per feature, ad esempio `order`, `stock`, `warehouse`.
+* Package ibrido, con feature principali e sub-package tecnici interni.
+
+## Conseguenze
+
+* Entity, repository, service, DTO e controller sono separati in modo esplicito.
+* Le dipendenze tra layer sono piu facili da leggere.
+* Se il dominio crescera molto, si potra rivalutare una struttura per feature o modulare.
+* Nuove classi devono rispettare il package del layer corrispondente.

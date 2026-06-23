@@ -1,4 +1,4 @@
-package com.tuna.stockly.order;
+package com.tuna.stockly.exception;
 
 public class InvalidOrderTransitionException extends RuntimeException {
 

@@ -1,16 +1,24 @@
-package com.tuna.stockly.order;
+package com.tuna.stockly.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.List;
 
-import com.tuna.stockly.item.Item;
-import com.tuna.stockly.item.ItemRepository;
-import com.tuna.stockly.stock.WarehouseItem;
-import com.tuna.stockly.stock.WarehouseItemRepository;
-import com.tuna.stockly.warehouse.Warehouse;
-import com.tuna.stockly.warehouse.WarehouseRepository;
+import com.tuna.stockly.dto.CreateOrderCommand;
+import com.tuna.stockly.entity.Item;
+import com.tuna.stockly.entity.OrderStatus;
+import com.tuna.stockly.entity.OrderStatusEvent;
+import com.tuna.stockly.entity.StockOrder;
+import com.tuna.stockly.entity.Warehouse;
+import com.tuna.stockly.entity.WarehouseItem;
+import com.tuna.stockly.exception.InsufficientStockException;
+import com.tuna.stockly.exception.InvalidOrderTransitionException;
+import com.tuna.stockly.repository.ItemRepository;
+import com.tuna.stockly.repository.OrderStatusEventRepository;
+import com.tuna.stockly.repository.StockOrderRepository;
+import com.tuna.stockly.repository.WarehouseItemRepository;
+import com.tuna.stockly.repository.WarehouseRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

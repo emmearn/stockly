@@ -1,7 +1,5 @@
-package com.tuna.stockly.order;
+package com.tuna.stockly.entity;
 
-import com.tuna.stockly.item.Item;
-import com.tuna.stockly.warehouse.Warehouse;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;

@@ -1,10 +1,11 @@
-package com.tuna.stockly.stock;
+package com.tuna.stockly.repository;
 
 import java.util.List;
 import java.util.Optional;
 
-import com.tuna.stockly.item.Item;
-import com.tuna.stockly.warehouse.Warehouse;
+import com.tuna.stockly.entity.Item;
+import com.tuna.stockly.entity.Warehouse;
+import com.tuna.stockly.entity.WarehouseItem;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

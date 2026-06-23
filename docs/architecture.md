@@ -71,36 +71,44 @@ Package root:
 com.tuna.stockly
 ```
 
-Package POC attuali:
+Struttura scelta:
 
 ```text
 config
-item
-order
-stock
-warehouse
-```
-
-Package previsti:
-
-```text
-config
-user
-warehouse
-item
-stock
-order
-pdf
+dto
+entity
+exception
+repository
+service
 web
 ```
 
-La struttura definitiva va decisa prima della fase MVP.
+Responsabilita:
+
+* `config`: configurazione applicativa e bootstrap dati demo;
+* `dto`: command, form object e view model;
+* `entity`: entity JPA, enum persistenti e piccoli metodi di dominio locali;
+* `exception`: eccezioni applicative e di dominio;
+* `repository`: repository Spring Data e query di persistenza;
+* `service`: casi d'uso, transazioni e regole applicative;
+* `web`: controller MVC.
+
+Package futuri ammessi:
+
+```text
+user
+pdf
+```
+
+La decisione e registrata in `docs/decisions.md`.
 
 ---
 
 # 3. Layer
 
 ## Controller
+
+Package: `web`.
 
 Responsabilita:
 
@@ -113,6 +121,8 @@ Responsabilita:
 
 ## Service
 
+Package: `service`.
+
 Responsabilita:
 
 * rappresentare casi d'uso;
@@ -123,6 +133,8 @@ Responsabilita:
 
 ## Repository
 
+Package: `repository`.
+
 Responsabilita:
 
 * incapsulare accesso dati;
@@ -131,11 +143,34 @@ Responsabilita:
 
 ## Entity
 
+Package: `entity`.
+
 Responsabilita:
 
 * rappresentare stato persistente;
 * contenere piccoli metodi di dominio locali;
 * non dipendere da controller, form o view.
+
+## DTO
+
+Package: `dto`.
+
+Responsabilita:
+
+* rappresentare input applicativi;
+* rappresentare form web;
+* rappresentare righe o modelli letti dalla UI;
+* non contenere logica di business.
+
+## Exception
+
+Package: `exception`.
+
+Responsabilita:
+
+* rappresentare errori applicativi espliciti;
+* rendere leggibili i fallimenti di dominio;
+* non contenere logica di recovery.
 
 ---
 

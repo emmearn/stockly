@@ -1,5 +1,6 @@
-package com.tuna.stockly.stock;
+package com.tuna.stockly.web;
 
+import com.tuna.stockly.repository.WarehouseItemRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

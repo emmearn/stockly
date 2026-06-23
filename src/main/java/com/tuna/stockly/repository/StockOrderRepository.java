@@ -1,8 +1,10 @@
-package com.tuna.stockly.order;
+package com.tuna.stockly.repository;
 
 import java.util.List;
 import java.util.Optional;
 
+import com.tuna.stockly.entity.OrderStatus;
+import com.tuna.stockly.entity.StockOrder;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

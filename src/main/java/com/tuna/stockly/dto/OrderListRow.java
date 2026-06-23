@@ -1,4 +1,7 @@
-package com.tuna.stockly.order;
+package com.tuna.stockly.dto;
+
+import com.tuna.stockly.entity.OrderStatusEvent;
+import com.tuna.stockly.entity.StockOrder;
 
 public class OrderListRow {
 

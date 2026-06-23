@@ -1,4 +1,4 @@
-package com.tuna.stockly.item;
+package com.tuna.stockly.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

@@ -2,11 +2,11 @@ package com.tuna.stockly;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import com.tuna.stockly.item.ItemRepository;
-import com.tuna.stockly.order.OrderStatusEventRepository;
-import com.tuna.stockly.order.StockOrderRepository;
-import com.tuna.stockly.stock.WarehouseItemRepository;
-import com.tuna.stockly.warehouse.WarehouseRepository;
+import com.tuna.stockly.repository.ItemRepository;
+import com.tuna.stockly.repository.OrderStatusEventRepository;
+import com.tuna.stockly.repository.StockOrderRepository;
+import com.tuna.stockly.repository.WarehouseItemRepository;
+import com.tuna.stockly.repository.WarehouseRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -1,4 +1,4 @@
-package com.tuna.stockly.order;
+package com.tuna.stockly.entity;
 
 import java.util.ArrayList;
 import java.util.Collections;

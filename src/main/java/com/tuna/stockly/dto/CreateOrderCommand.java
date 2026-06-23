@@ -1,4 +1,4 @@
-package com.tuna.stockly.order;
+package com.tuna.stockly.dto;
 
 public record CreateOrderCommand(
 		String requesterUserId,

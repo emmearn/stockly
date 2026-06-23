@@ -1,4 +1,4 @@
-package com.tuna.stockly.order;
+package com.tuna.stockly.dto;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
