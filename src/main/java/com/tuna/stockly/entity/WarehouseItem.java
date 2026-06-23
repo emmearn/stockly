@@ -60,6 +60,13 @@ public class WarehouseItem {
 		return quantity;
 	}
 
+	public void setQuantity(int quantity) {
+		if (quantity < 0) {
+			throw new IllegalArgumentException("Quantity cannot be negative");
+		}
+		this.quantity = quantity;
+	}
+
 	public void reserve(int requestedQuantity) {
 		if (requestedQuantity <= 0) {
 			throw new IllegalArgumentException("Requested quantity must be positive");

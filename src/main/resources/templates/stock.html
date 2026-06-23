@@ -21,10 +21,16 @@
   <div class="page-title">
     <div>
       <h1>Disponibilita</h1>
-      <p class="muted">Giacenze demo caricate nel database H2 in-memory.</p>
+      <p class="muted">Giacenze disponibili per articolo e magazzino.</p>
     </div>
-    <a class="button" href="/orders/new">Nuovo ordine</a>
+    <div class="actions">
+      <a class="button secondary" href="/stock/availability">Modifica disponibilita</a>
+      <a class="button" href="/orders/new">Nuovo ordine</a>
+    </div>
   </div>
+
+  <div class="alert success" th:if="${success}" th:text="${success}">Operazione completata</div>
+  <div class="alert error" th:if="${error}" th:text="${error}">Errore</div>
 
   <div class="table-wrap">
     <table>

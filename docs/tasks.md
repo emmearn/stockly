@@ -209,8 +209,16 @@ Output:
 * `todo` Creare form nuovo magazzino.
 * `todo` Creare pagina lista articoli.
 * `todo` Creare form nuovo articolo.
-* `todo` Creare pagina lista giacenze.
-* `todo` Creare form modifica giacenza.
+* `done` Creare pagina lista giacenze.
+* `done` Creare command/form disponibilita.
+* `done` Creare service inserimento o modifica disponibilita.
+* `done` Creare form modifica disponibilita.
+* `done` Mostrare quantita attuale per articolo e magazzino selezionati.
+* `done` Aggiungere input quantita modificabile da tastiera.
+* `done` Aggiungere controlli `+` e `-` per la quantita.
+* `done` Impedire quantita negativa lato server.
+* `done` Testare creazione nuova giacenza.
+* `done` Testare modifica giacenza esistente.
 * `todo` Aggiungere ricerca articoli per nome.
 * `todo` Aggiungere ricerca per barcode.
 * `todo` Aggiungere ricerca per marca.

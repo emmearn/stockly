@@ -113,7 +113,7 @@ public class OrderController {
 	private void addFormOptions(Model model) {
 		model.addAttribute("items", itemRepository.findAll());
 		model.addAttribute("warehouses", warehouseRepository.findAll());
-		model.addAttribute("stockRows", warehouseItemRepository.findAll());
+		model.addAttribute("stockRows", warehouseItemRepository.findAllForStockView());
 	}
 
 	private List<OrderListRow> toRows(List<StockOrder> orders) {

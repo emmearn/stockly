@@ -255,6 +255,28 @@ input {
   width: 100%;
 }
 
+.stepper {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: 42px minmax(0, 1fr) 42px;
+}
+
+.stepper input {
+  text-align: center;
+}
+
+.stepper-button {
+  min-height: 42px;
+  padding: 0;
+}
+
+.stepper-button:disabled {
+  background: #d8dee5;
+  border-color: #d8dee5;
+  color: #6c7784;
+  cursor: not-allowed;
+}
+
 .field-error {
   color: var(--danger);
   font-size: 14px;

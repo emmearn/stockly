@@ -96,6 +96,7 @@ Componenti base:
 * form;
 * select;
 * input number;
+* stepper numerico con `+` e `-`;
 * alert success/error;
 * badge stato ordine;
 * pulsanti primari/secondari/danger;
@@ -121,6 +122,27 @@ Responsabilita:
 * mostrare disponibilita quando articolo e magazzino sono selezionati;
 * mostrare errori vicino ai campi;
 * non sostituire la validazione server-side.
+
+## Form Disponibilita
+
+Responsabilita:
+
+* raccogliere articolo e magazzino;
+* mostrare la quantita attuale della combinazione selezionata;
+* usare `0` come quantita attuale quando la giacenza non esiste;
+* permettere modifica da tastiera;
+* permettere incremento e decremento con pulsanti `+` e `-`;
+* impedire valori sotto `0` lato UI;
+* mostrare errori vicino ai campi;
+* non sostituire la validazione server-side.
+
+Regole UX:
+
+* il valore salvato rappresenta la disponibilita finale;
+* i controlli `+` e `-` devono essere vicini al campo quantita;
+* il pulsante `-` deve essere disabilitato o inefficace a `0`;
+* dopo salvataggio, mostrare messaggio di successo nella lista stock;
+* evitare termini come carico, scarico o movimento finche non esiste lo storico movimenti.
 
 ## Lista Ordini
 

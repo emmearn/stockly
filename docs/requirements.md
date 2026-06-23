@@ -39,6 +39,7 @@ Funzionalita previste:
 Funzionalita disponibili nella POC:
 
 * visualizzazione stock;
+* inserimento o modifica disponibilita magazzino;
 * creazione ordine;
 * approvazione ordine;
 * cancellazione ordine;
@@ -133,6 +134,20 @@ Ogni combinazione articolo-magazzino mantiene una quantita disponibile.
 
 Lo stesso articolo puo essere presente in piu magazzini.
 
+La disponibilita puo essere inserita o modificata manualmente da UI.
+
+Regole:
+
+* l'utente seleziona articolo e magazzino;
+* se la combinazione articolo-magazzino esiste, il sistema mostra la quantita attuale;
+* se la combinazione articolo-magazzino non esiste, il sistema mostra quantita attuale `0`;
+* la quantita e modificabile da tastiera;
+* la quantita e modificabile tramite controlli `+` e `-`;
+* la quantita minima e `0`;
+* il valore salvato e assoluto, non incrementale;
+* salvare una combinazione inesistente crea una nuova giacenza;
+* salvare una combinazione esistente aggiorna la giacenza.
+
 ## Ricerca Articoli
 
 La ricerca consente filtraggio per:
@@ -174,6 +189,23 @@ Acceptance criteria:
 * lo stock mostra articolo, magazzino e quantita disponibile;
 * lo stesso articolo puo comparire su piu magazzini;
 * le quantita non possono essere negative.
+
+## Modifica Disponibilita
+
+Come ADMIN o STORE_MANAGER voglio inserire o modificare la disponibilita di un articolo in un magazzino, cosi posso mantenere aggiornate le giacenze.
+
+Acceptance criteria:
+
+* il form richiede articolo e magazzino;
+* il sistema mostra la quantita attuale della combinazione selezionata;
+* se non esiste una giacenza, la quantita attuale e `0`;
+* l'utente puo modificare la quantita da tastiera;
+* l'utente puo aumentare o diminuire la quantita con controlli `+` e `-`;
+* il controllo `-` non puo portare la quantita sotto `0`;
+* il salvataggio imposta la quantita finale al valore indicato;
+* se la riga non esiste, viene creata;
+* se la riga esiste, viene aggiornata;
+* al termine l'utente torna alla lista stock con messaggio di successo.
 
 ## Creazione Ordine
 
@@ -254,10 +286,24 @@ Regole:
 Le seguenti regole devono essere sempre vere:
 
 * la quantita stock non puo essere negativa;
+* la modifica manuale della disponibilita salva una quantita assoluta;
 * non si puo prenotare piu della disponibilita;
 * ogni modifica stock collegata a un ordine deve essere transazionale;
 * rifiuto e cancellazione devono reintegrare esattamente le righe ordine;
 * approvazione non deve reintegrare ne decrementare stock.
+
+## Movimenti di Magazzino
+
+La modifica disponibilita prevista per MVP non registra movimenti incrementali.
+
+Fuori scope per questa feature:
+
+* carichi e scarichi separati;
+* causali di movimento;
+* storico movimenti giacenza;
+* rettifiche tracciate.
+
+Queste funzionalita potranno essere introdotte in una fase successiva.
 
 ## Audit Ordine
 
@@ -351,7 +397,7 @@ MVP post-POC:
 * utenti persistenti;
 * CRUD magazzini;
 * CRUD articoli;
-* gestione giacenze;
+* gestione giacenze con inserimento e modifica disponibilita;
 * ricerca articoli;
 * ordine multi-riga;
 * workflow completo con `APPROVED`, `REJECTED`, `CANCELED`;

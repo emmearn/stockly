@@ -201,6 +201,7 @@ Componenti:
 * `Warehouse`;
 * `Item`;
 * `WarehouseItem`;
+* service applicativo per inserire o modificare disponibilita;
 * repository collegati.
 
 ## Order
@@ -242,6 +243,23 @@ Passi tecnici:
 2. Il service carica articolo, magazzino e riga stock.
 3. Il service aggiorna stock e ordine nella stessa transazione.
 4. Il service registra l'evento di stato.
+
+Le regole funzionali del flusso sono definite in `docs/requirements.md`.
+
+## Modifica Disponibilita
+
+```text
+form disponibilita -> StockController -> StockService -> WarehouseItemRepository -> commit transazione
+```
+
+Passi tecnici:
+
+1. Il controller riceve articolo, magazzino e quantita.
+2. Il service valida che la quantita non sia negativa.
+3. Il service carica articolo e magazzino.
+4. Il service cerca la giacenza per coppia articolo-magazzino.
+5. Se la giacenza esiste, aggiorna la quantita assoluta.
+6. Se la giacenza non esiste, crea una nuova riga.
 
 Le regole funzionali del flusso sono definite in `docs/requirements.md`.
 
@@ -415,6 +433,9 @@ Usati per:
 
 Devono coprire:
 
+* inserimento nuova disponibilita;
+* modifica disponibilita esistente;
+* rifiuto quantita negativa;
 * creazione ordine;
 * stock insufficiente;
 * magazzino obbligatorio;
