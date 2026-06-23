@@ -40,8 +40,26 @@ La scelta del monolite e intenzionale:
 ## Database
 
 * H2 in-memory per POC e test locali mirati;
+* H2 file-based per sviluppo locale leggero;
 * PostgreSQL come target per ambienti maturi e produzione;
 * Flyway per migrazioni versionate.
+
+## Profili Spring
+
+Profili supportati:
+
+* `local`: sviluppo locale con H2 file-based in `.data/stockly-local` e seed demo iniziale;
+* `poc`: proof of concept con H2 in-memory, H2 console e seed demo;
+* `test`: test automatici con H2 in-memory, H2 console disattiva e `server.port=0`;
+* `prod`: ambiente produttivo con datasource PostgreSQL configurato da variabili ambiente.
+
+Regole:
+
+* nessun profilo applicativo deve essere attivato come default globale;
+* il profilo `poc` deve essere esplicito;
+* H2 console deve essere attiva solo in `local` e `poc`;
+* `prod` non deve contenere segreti hardcoded;
+* `test` non deve usare la porta `8080`.
 
 ## Deploy
 
@@ -199,12 +217,13 @@ Componenti:
 
 ## Demo Data
 
-`DemoDataSeeder` crea dati demo solo con profilo `poc`.
+`DemoDataSeeder` crea dati demo solo con profilo `local`, `poc` o `test`.
 
 I dati demo:
 
 * non vivono nelle migrazioni Flyway;
-* vengono ricreati a ogni avvio con H2 in-memory;
+* vengono ricreati a ogni avvio con H2 in-memory nei profili `poc` e `test`;
+* vengono creati solo a database vuoto nel profilo `local`;
 * devono restare coerenti con le regole stock.
 
 ---

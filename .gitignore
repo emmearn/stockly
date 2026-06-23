@@ -22,8 +22,10 @@ spring.log
 !.env.example
 application-local.properties
 application-*.local.properties
+!src/main/resources/application-local.properties
 
 # H2 file databases
+.data/
 *.db
 *.mv.db
 *.trace.db

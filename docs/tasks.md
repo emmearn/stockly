@@ -185,11 +185,11 @@ Output:
 
 ## P1 - Fondazione
 
-* `todo` Definire profilo `local`.
-* `todo` Definire profilo `test`.
-* `todo` Definire profilo `prod`.
-* `todo` Spostare configurazione POC fuori dai default generali.
-* `todo` Verificare che H2 console sia attiva solo in POC.
+* `done` Definire profilo `local`.
+* `done` Definire profilo `test`.
+* `done` Definire profilo `prod`.
+* `done` Spostare configurazione POC fuori dai default generali.
+* `done` Verificare che H2 console sia attiva solo in `local` e `poc`.
 
 ## P1 - Sicurezza
 
@@ -255,7 +255,7 @@ Output:
 * `P0 todo` Rilanciare test dopo refactor package.
 * `P1 done` Rivalutare package structure.
 * `P1 todo` Sostituire `demo.user` con utente autenticato.
-* `P1 todo` Disabilitare H2 console fuori da POC.
+* `P1 done` Disabilitare H2 console fuori da `local` e `poc`.
 * `P1 todo` Migliorare gestione errori controller.
 * `P2 todo` Valutare introduzione controllata di Lombok.
 * `P2 todo` Evitare dipendenza prolungata da H2 per scenari di locking.

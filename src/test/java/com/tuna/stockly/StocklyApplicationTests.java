@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
-@ActiveProfiles("poc")
+@ActiveProfiles("test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 class StocklyApplicationTests {
 
@@ -36,12 +36,12 @@ class StocklyApplicationTests {
 	}
 
 	@Test
-	void loadsPocDemoData() {
+	void loadsDemoData() {
 		assertThat(warehouseRepository.count()).isEqualTo(2);
-		assertThat(itemRepository.count()).isEqualTo(3);
-		assertThat(warehouseItemRepository.count()).isEqualTo(4);
-		assertThat(stockOrderRepository.count()).isEqualTo(3);
-		assertThat(orderStatusEventRepository.count()).isEqualTo(5);
+		assertThat(itemRepository.count()).isEqualTo(20);
+		assertThat(warehouseItemRepository.count()).isEqualTo(30);
+		assertThat(stockOrderRepository.count()).isEqualTo(10);
+		assertThat(orderStatusEventRepository.count()).isEqualTo(16);
 	}
 
 }

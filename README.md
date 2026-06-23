@@ -16,18 +16,25 @@ Pagine disponibili:
 * `http://localhost:8080/orders/new`
 * `http://localhost:8080/orders`
 
-Avvio locale su Windows:
+Avvio locale standard su Windows:
+
+```powershell
+$env:MAVEN_USER_HOME="$PWD\.m2"
+.\mvnw.cmd "-Dmaven.repo.local=.m2/repository" spring-boot:run -Dspring-boot.run.profiles=local
+```
+
+Avvio locale standard su macOS/Linux:
+
+```bash
+export MAVEN_USER_HOME="$PWD/.m2"
+./mvnw -Dmaven.repo.local=.m2/repository spring-boot:run -Dspring-boot.run.profiles=local
+```
+
+Avvio POC demo:
 
 ```powershell
 $env:MAVEN_USER_HOME="$PWD\.m2"
 .\mvnw.cmd "-Dmaven.repo.local=.m2/repository" spring-boot:run -Dspring-boot.run.profiles=poc
-```
-
-Avvio locale su macOS/Linux:
-
-```bash
-export MAVEN_USER_HOME="$PWD/.m2"
-./mvnw -Dmaven.repo.local=.m2/repository spring-boot:run -Dspring-boot.run.profiles=poc
 ```
 
 Test:
@@ -36,6 +43,13 @@ Test:
 $env:MAVEN_USER_HOME="$PWD\.m2"
 .\mvnw.cmd "-Dmaven.repo.local=.m2/repository" test
 ```
+
+Profili:
+
+* `local`: sviluppo locale con H2 file-based in `.data/stockly-local` e seed demo iniziale;
+* `poc`: demo reset a ogni avvio con H2 in-memory e seed automatico;
+* `test`: test automatici con H2 in-memory e porta casuale;
+* `prod`: PostgreSQL via variabili ambiente.
 
 Console H2:
 

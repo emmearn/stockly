@@ -25,7 +25,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
-@ActiveProfiles("poc")
+@ActiveProfiles("test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
 @Transactional
 class OrderServiceTests {
@@ -51,11 +51,11 @@ class OrderServiceTests {
 	@Test
 	void createOrderReservesStock() {
 		Item bolt = item("800000000001");
-		Warehouse milan = warehouse("Milano");
-		WarehouseItem stock = stock(milan, bolt);
+		Warehouse elmas = warehouse("Elmas");
+		WarehouseItem stock = stock(elmas, bolt);
 		int initialQuantity = stock.getQuantity();
 
-		StockOrder order = orderService.createOrder(new CreateOrderCommand("test.user", bolt.getId(), milan.getId(), 3));
+		StockOrder order = orderService.createOrder(new CreateOrderCommand("test.user", bolt.getId(), elmas.getId(), 3));
 
 		assertThat(order.getStatus()).isEqualTo(OrderStatus.REQUIRED);
 		assertThat(order.getItems()).hasSize(1);
@@ -71,12 +71,12 @@ class OrderServiceTests {
 	@Test
 	void createOrderRejectsInsufficientStock() {
 		Item hammer = item("800000000002");
-		Warehouse milan = warehouse("Milano");
-		WarehouseItem stock = stock(milan, hammer);
+		Warehouse elmas = warehouse("Elmas");
+		WarehouseItem stock = stock(elmas, hammer);
 		int initialQuantity = stock.getQuantity();
 
 		assertThatThrownBy(() -> orderService.createOrder(
-				new CreateOrderCommand("test.user", hammer.getId(), milan.getId(), initialQuantity + 1)))
+				new CreateOrderCommand("test.user", hammer.getId(), elmas.getId(), initialQuantity + 1)))
 				.isInstanceOf(InsufficientStockException.class);
 
 		assertThat(stock.getQuantity()).isEqualTo(initialQuantity);
@@ -95,10 +95,10 @@ class OrderServiceTests {
 	@Test
 	void approveOrderDoesNotChangeStock() {
 		Item bolt = item("800000000001");
-		Warehouse milan = warehouse("Milano");
-		WarehouseItem stock = stock(milan, bolt);
+		Warehouse elmas = warehouse("Elmas");
+		WarehouseItem stock = stock(elmas, bolt);
 		int afterReservationQuantity = stock.getQuantity();
-		StockOrder order = orderService.createOrder(new CreateOrderCommand("test.user", bolt.getId(), milan.getId(), 4));
+		StockOrder order = orderService.createOrder(new CreateOrderCommand("test.user", bolt.getId(), elmas.getId(), 4));
 		int reservedQuantity = stock.getQuantity();
 
 		StockOrder approved = orderService.approveOrder(order.getId(), "approver.user");
@@ -117,10 +117,10 @@ class OrderServiceTests {
 	@Test
 	void cancelOrderReplenishesStock() {
 		Item pipe = item("800000000003");
-		Warehouse rome = warehouse("Roma");
-		WarehouseItem stock = stock(rome, pipe);
+		Warehouse quartucciu = warehouse("Quartucciu");
+		WarehouseItem stock = stock(quartucciu, pipe);
 		int initialQuantity = stock.getQuantity();
-		StockOrder order = orderService.createOrder(new CreateOrderCommand("test.user", pipe.getId(), rome.getId(), 6));
+		StockOrder order = orderService.createOrder(new CreateOrderCommand("test.user", pipe.getId(), quartucciu.getId(), 6));
 
 		StockOrder canceled = orderService.cancelOrder(order.getId(), "cancel.user");
 

@@ -44,7 +44,7 @@
       <select id="warehouseId" th:field="*{warehouseId}">
         <option value="">Seleziona magazzino</option>
         <option th:each="warehouse : ${warehouses}" th:value="${warehouse.id}"
-                th:text="${warehouse.name}">Milano</option>
+                th:text="${warehouse.name}">Elmas</option>
       </select>
       <div class="field-error" th:if="${#fields.hasErrors('warehouseId')}" th:errors="*{warehouseId}">Errore magazzino</div>
     </div>
