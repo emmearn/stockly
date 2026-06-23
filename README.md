@@ -63,10 +63,12 @@ Gli ordini demo includono gia stati `REQUIRED`, `APPROVED` e `CANCELED`.
 
 ## Documentazione
 
-* `docs/poc.md`
-* `docs/roadmap.md`
-* `docs/project-status.md`
-* `docs/functional-specs.md`
-* `docs/domain-rules.md`
+* `docs/requirements_template.md`
+* `docs/requirements.md`
 * `docs/architecture.md`
-* `docs/development-guidelines.md`
+* `docs/design.md`
+* `docs/security.md`
+* `docs/tasks.md`
+* `docs/prompts.md`
+* `docs/decisions.md`
+* `docs/archive/poc.md`

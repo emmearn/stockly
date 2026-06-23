@@ -1,377 +1,395 @@
 # Architecture
 
-Questo documento raccoglie le scelte tecniche principali di Stockly. Le decisioni qui presenti guidano l'implementazione e vanno aggiornate quando una scelta architetturale cambia.
+Questo documento e la fonte di verita tecnica di Stockly.
+
+Input principale: `docs/requirements.md`.
+
+Le regole funzionali non sono duplicate qui: quando servono, questo documento rimanda ai requisiti.
 
 ---
 
-# 1. Stile Architetturale
+# 1. Stack Tecnologico
+
+## Stile Architetturale
 
 Stockly e un monolite web Spring Boot.
 
 La scelta del monolite e intenzionale:
 
 * il dominio e compatto;
-* le funzionalita sono fortemente correlate;
+* le funzionalita sono correlate;
 * il deploy deve restare semplice;
 * il team ha forte competenza backend e limitata esperienza frontend.
 
-Non si introducono microservizi, code o componenti distribuiti finche non esiste un bisogno reale.
-
----
-
-# 2. Stack Tecnologico
-
 ## Backend
 
-* Java 21
-* Spring Boot
-* Spring MVC
-* Spring Data JPA
-* Hibernate
-* Spring Security
-* Maven
+* Java 21;
+* Spring Boot;
+* Spring MVC;
+* Spring Data JPA;
+* Hibernate;
+* Spring Security;
+* Maven.
 
 ## Frontend
 
-* Thymeleaf
-* Bootstrap
-* HTMX solo se aggiunge valore concreto a una schermata
+* Thymeleaf;
+* Bootstrap;
+* HTMX solo se aggiunge valore concreto.
 
 ## Database
 
-* PostgreSQL
-* Flyway per migrazioni versionate
-* H2 in-memory solo per POC e test locali mirati
-
-## Strategia Temporanea H2/PostgreSQL
-
-Per accelerare lo sviluppo iniziale, H2 in-memory puo essere mantenuto anche oltre la POC, finche il prodotto non raggiunge una fase piu matura.
-
-Motivazioni:
-
-* avvio locale piu semplice;
-* nessuna dipendenza da servizi esterni;
-* iterazione rapida su UI, service e flussi base;
-* seed demo sempre ripetibile.
-
-Vincoli:
-
-* PostgreSQL resta il database target per produzione;
-* Flyway resta obbligatorio anche con H2;
-* evitare SQL non portabile quando possibile;
-* prima di lavorare seriamente su concorrenza, locking, performance o deploy, introdurre PostgreSQL locale;
-* prima del deploy, testare le migrazioni e i flussi principali su PostgreSQL.
-
-Trigger consigliati per passare a PostgreSQL locale:
-
-* introduzione di locking pessimistico sulle giacenze;
-* completamento del workflow ordini reale;
-* introduzione di sicurezza e utenti persistenti;
-* preparazione Docker/deploy;
-* differenze H2/PostgreSQL che iniziano a influenzare il codice.
-
-## PDF
-
-* OpenPDF come prima scelta, salvo vincoli tecnici futuri
+* H2 in-memory per POC e test locali mirati;
+* PostgreSQL come target per ambienti maturi e produzione;
+* Flyway per migrazioni versionate.
 
 ## Deploy
 
-* Docker
-* AWS App Runner
-* Amazon RDS PostgreSQL
+* Docker;
+* Render Free per POC;
+* AWS App Runner e Amazon RDS PostgreSQL per una fase successiva.
+
+## Integrazioni
+
+Integrazioni previste o possibili:
+
+* database PostgreSQL per ambienti maturi;
+* Render Free per POC;
+* AWS App Runner e RDS per una fase successiva;
+* generazione PDF;
+* eventuali notifiche o esportazioni future.
+
+Le integrazioni future devono essere introdotte solo quando esiste un bisogno funzionale o operativo chiaro.
 
 ---
 
-# 3. Struttura Package
+# 2. Package Structure
 
-La struttura dei package segue il dominio, non gli strati tecnici generici.
+Package root:
+
+```text
+com.tuna.stockly
+```
+
+Package POC attuali:
+
+```text
+config
+item
+order
+stock
+warehouse
+```
 
 Package previsti:
 
-* `com.tuna.stockly.config`
-* `com.tuna.stockly.user`
-* `com.tuna.stockly.warehouse`
-* `com.tuna.stockly.item`
-* `com.tuna.stockly.stock`
-* `com.tuna.stockly.order`
-* `com.tuna.stockly.pdf`
-* `com.tuna.stockly.web`
-
-Ogni package di dominio puo contenere controller, service, repository, entity, DTO e form relativi a quel dominio.
-
-Esempio:
-
 ```text
-order/
-  Order.java
-  OrderItem.java
-  OrderStatus.java
-  OrderRepository.java
-  OrderService.java
-  OrderController.java
-  CreateOrderForm.java
+config
+user
+warehouse
+item
+stock
+order
+pdf
+web
 ```
 
-## Rivalutazione Post-POC
-
-Durante la POC e accettabile mantenere package di dominio piatti, ad esempio `order` con entity, enum, repository, service e command nello stesso livello.
-
-Dopo la POC bisogna rivalutare l'alberatura del progetto, perche con la crescita del codice questa struttura puo diventare confusionaria.
-
-Alternative da valutare:
-
-### Alternativa A - Package per dominio con sottopackage tecnici
-
-```text
-order/
-  domain/
-    StockOrder.java
-    OrderItem.java
-    OrderStatus.java
-  application/
-    OrderService.java
-    CreateOrderCommand.java
-  persistence/
-    StockOrderRepository.java
-    OrderItemRepository.java
-  web/
-    OrderController.java
-    CreateOrderForm.java
-```
-
-Vantaggi:
-
-* mantiene il dominio come confine principale;
-* separa entity, service, repository e web;
-* scala meglio quando una feature cresce.
-
-Svantaggi:
-
-* piu cartelle;
-* puo essere eccessivo per domini piccoli.
-
-### Alternativa B - Package per layer tecnici
-
-```text
-domain/
-  order/
-  stock/
-  item/
-repository/
-service/
-web/
-dto/
-```
-
-Vantaggi:
-
-* familiare per molti progetti Spring;
-* facile trovare tutti i repository o tutti i controller.
-
-Svantaggi:
-
-* disperde una feature su molti package;
-* rende meno visibili i confini del dominio;
-* tende a favorire dipendenze trasversali.
-
-Nota di preferenza:
-
-* il committente preferisce questa alternativa;
-* e percepita come la struttura piu diffusa nei progetti Spring tradizionali;
-* va valutata seriamente dopo la POC, bilanciando familiarita, ordine del codice e confini di dominio.
-
-### Alternativa C - Package per feature con separazione minima
-
-```text
-order/
-  StockOrder.java
-  OrderItem.java
-  OrderStatus.java
-  OrderService.java
-  StockOrderRepository.java
-  web/
-    OrderController.java
-    CreateOrderForm.java
-```
-
-Vantaggi:
-
-* poco boilerplate;
-* adatta a feature piccole o medie;
-* mantiene vicine le classi correlate.
-
-Svantaggi:
-
-* puo diventare disordinata se il numero di classi cresce;
-* non separa chiaramente application, domain e persistence.
-
-Preferenza iniziale da discutere dopo la POC:
-
-* preferenza del committente: Alternativa B, per layer tecnici;
-* preferenza tecnica iniziale proposta: Alternativa A per domini centrali come `order` e `stock`, Alternativa C per domini piu semplici come `item` e `warehouse`;
-* la scelta finale va presa dopo la POC, guardando il codice reale prodotto e non solo il modello teorico.
+La struttura definitiva va decisa prima della fase MVP.
 
 ---
 
-# 4. Separazione Responsabilita
+# 3. Layer
 
 ## Controller
 
-I controller:
+Responsabilita:
 
-* ricevono request web;
-* validano form tramite Bean Validation;
-* invocano service;
-* scelgono view o redirect;
-* non contengono logica di business.
+* ricevere request web;
+* validare form;
+* invocare service;
+* scegliere view o redirect;
+* non contenere logica di business;
+* non aprire transazioni.
 
 ## Service
 
-I service:
+Responsabilita:
 
-* contengono le regole di dominio;
-* gestiscono transazioni;
-* applicano workflow e invarianti;
-* coordinano repository multipli;
-* sono il punto principale da testare.
+* rappresentare casi d'uso;
+* gestire transazioni;
+* applicare workflow e invarianti;
+* coordinare repository multipli;
+* applicare controlli di permesso critici.
 
 ## Repository
 
-I repository:
+Responsabilita:
 
-* incapsulano accesso dati;
-* espongono query esplicite quando necessario;
-* non contengono logica di business.
+* incapsulare accesso dati;
+* esporre query esplicite quando necessario;
+* non contenere logica di business.
 
 ## Entity
 
-Le entity:
+Responsabilita:
 
-* rappresentano stato persistente;
-* possono contenere piccoli metodi di dominio locali;
-* non devono dipendere da controller, form o view.
-
-## Audit Stato Ordine
-
-L'audit delle transizioni ordine e separato dalla testata ordine.
-
-Decisione:
-
-* `StockOrder` mantiene lo stato corrente e le righe ordine;
-* `StockOrder` non contiene richiedente, data richiesta, gestore o data gestione;
-* ogni creazione o cambio stato crea una riga in `order_status_events`;
-* `order_status_events` contiene stato precedente, nuovo stato, id utente autorizzante e timestamp;
-* la creazione ordine viene tracciata come evento verso `REQUIRED` con stato precedente nullo.
-
-Conseguenze:
-
-* la storia delle transizioni e consultabile senza sovraccaricare la testata;
-* l'ordine non duplica campi derivabili dagli eventi;
-* in futuro sara piu semplice mostrare timeline, audit e PDF completi;
-* finche non esiste una tabella utenti reale, l'id utente resta una stringa applicativa.
+* rappresentare stato persistente;
+* contenere piccoli metodi di dominio locali;
+* non dipendere da controller, form o view.
 
 ---
 
-# 5. Transazioni e Concorrenza
+# 4. Componenti
 
-Le operazioni che modificano stock e ordini devono essere transazionali.
+## Stock
+
+Componenti:
+
+* `Warehouse`;
+* `Item`;
+* `WarehouseItem`;
+* repository collegati.
+
+## Order
+
+Componenti:
+
+* `StockOrder`;
+* `OrderItem`;
+* `OrderStatus`;
+* `OrderStatusEvent`;
+* `OrderService`;
+* repository collegati;
+* controller e form Thymeleaf.
+
+## Demo Data
+
+`DemoDataSeeder` crea dati demo solo con profilo `poc`.
+
+I dati demo:
+
+* non vivono nelle migrazioni Flyway;
+* vengono ricreati a ogni avvio con H2 in-memory;
+* devono restare coerenti con le regole stock.
+
+---
+
+# 5. Flussi Applicativi
+
+## Creazione Ordine
+
+```text
+form ordine -> OrderController -> OrderService -> repository stock/order -> commit transazione
+```
+
+Passi tecnici:
+
+1. Il controller riceve e valida il form.
+2. Il service carica articolo, magazzino e riga stock.
+3. Il service aggiorna stock e ordine nella stessa transazione.
+4. Il service registra l'evento di stato.
+
+Le regole funzionali del flusso sono definite in `docs/requirements.md`.
+
+## Approvazione Ordine
+
+```text
+azione approva -> OrderController -> OrderService -> StockOrder -> OrderStatusEvent
+```
+
+## Cancellazione Ordine
+
+```text
+azione cancella -> OrderController -> OrderService -> WarehouseItem -> StockOrder -> OrderStatusEvent
+```
+
+## Deploy POC
+
+```text
+GitHub -> Render Docker build -> container Spring Boot -> H2 in-memory
+```
+
+---
+
+# 6. Modello Dati
+
+Il modello dati deriva dai requisiti funzionali e dalle decisioni architetturali registrate in `docs/decisions.md`.
+
+## Warehouse
+
+Campi:
+
+* `id`;
+* `name`;
+* `address`.
+
+## Item
+
+Campi:
+
+* `id`;
+* `barcode`;
+* `name`;
+* `brand`;
+* `type`.
+
+Vincoli:
+
+* `barcode` univoco.
+
+## WarehouseItem
+
+Campi:
+
+* `id`;
+* `warehouse_id`;
+* `item_id`;
+* `quantity`.
+
+Vincoli:
+
+* coppia `warehouse_id`, `item_id` univoca;
+* `quantity >= 0`.
+
+## StockOrder
+
+Campi:
+
+* `id`;
+* `status`.
+
+## OrderItem
+
+Campi:
+
+* `id`;
+* `order_id`;
+* `item_id`;
+* `warehouse_id`;
+* `quantity`.
+
+Vincoli:
+
+* `quantity > 0`;
+* `warehouse_id` obbligatorio.
+
+## OrderStatusEvent
+
+Campi:
+
+* `id`;
+* `order_id`;
+* `from_status`;
+* `to_status`;
+* `authorized_by_user_id`;
+* `authorized_at`;
+* `reason`.
+
+## User
+
+Previsto per MVP:
+
+* `id`;
+* `username`;
+* `password`;
+* `role`;
+* `enabled`.
+
+## ER
+
+```mermaid
+erDiagram
+    USER ||--o{ ORDER : creates
+    ORDER ||--o{ ORDER_STATUS_EVENT : records
+    WAREHOUSE ||--o{ WAREHOUSE_ITEM : stores
+    ITEM ||--o{ WAREHOUSE_ITEM : available
+    ORDER ||--o{ ORDER_ITEM : contains
+    ITEM ||--o{ ORDER_ITEM : ordered
+    WAREHOUSE ||--o{ ORDER_ITEM : picked_from
+```
+
+---
+
+# 7. Error Handling
 
 Regole:
 
-* la creazione ordine decrementa lo stock nella stessa transazione;
-* rifiuto e cancellazione reintegrano lo stock nella stessa transazione;
-* approvazione non modifica lo stock;
-* le giacenze devono essere bloccate durante la prenotazione;
-* la quantita disponibile non deve mai diventare negativa.
-
-Per le giacenze si preferisce locking pessimistico sulle righe `warehouse_items` coinvolte.
-
----
-
-# 6. Database
-
-Lo schema database e governato da Flyway.
-
-Regole:
-
-* non usare `spring.jpa.hibernate.ddl-auto=update` negli ambienti reali;
-* nella POC usare H2 in-memory con Flyway e `spring.jpa.hibernate.ddl-auto=validate`;
-* ogni modifica schema passa da una migrazione;
-* le migrazioni non si riscrivono dopo essere state condivise;
-* vincoli importanti devono stare nel database oltre che nel codice.
-
-Vincoli attesi:
-
-* username univoco;
-* barcode univoco;
-* coppia warehouse-item univoca;
-* quantita stock non negativa;
-* stato ordine limitato agli enum previsti;
-* eventi stato ordine collegati a un ordine esistente.
-
-## Seed Demo
-
-I dati demo della POC non devono stare nelle migrazioni Flyway.
-
-Regole:
-
-* Flyway gestisce lo schema;
-* un seeder applicativo gestisce i dati demo;
-* il seeder deve essere attivo solo con profilo `poc`;
-* i dati demo possono cambiare liberamente durante la POC.
-
----
-
-# 7. Sicurezza
-
-Stockly usa Spring Security con sessione HTTP e form login.
-
-Autorizzazione:
-
-* rotte web protette per ruolo;
-* controlli di ownership per gli ordini USER;
-* controlli nei service per operazioni sensibili.
-
-Non basta nascondere pulsanti nella UI: le regole devono essere applicate anche lato server.
-
----
-
-# 8. Error Handling
-
-Gli errori di dominio devono essere espliciti.
+* gli errori di dominio devono essere espliciti;
+* la UI mostra messaggi comprensibili;
+* gli stack trace non devono essere esposti all'utente;
+* le eccezioni tecniche devono essere loggate con contesto sufficiente.
 
 Esempi:
 
 * stock insufficiente;
 * ordine non modificabile;
 * transizione non consentita;
-* accesso a ordine non autorizzato;
-* articolo o magazzino inesistente.
-
-La UI deve mostrare messaggi comprensibili, senza esporre stack trace.
-
----
-
-# 9. Configurazione
-
-La configurazione varia per profilo.
-
-Profili previsti:
-
-* `poc`
-* `local`
-* `test`
-* `prod`
-
-In produzione le credenziali non devono stare nel repository. Si usano variabili ambiente.
+* accesso non autorizzato;
+* articolo inesistente;
+* magazzino inesistente.
 
 ---
 
-# 10. Decisioni da Rivalutare
+# 8. Testing Strategy
 
-Le seguenti scelte possono cambiare se emergono vincoli concreti:
+Priorita:
 
-* uso di HTMX;
-* OpenPDF rispetto ad Apache PDFBox;
-* Testcontainers nella prima fase;
-* livello di auditing oltre ai campi richiesti.
+* regole stock;
+* workflow ordini;
+* permessi;
+* migrazioni e vincoli.
+
+## Unit Test
+
+Usati per:
+
+* logica pura;
+* validazione transizioni;
+* calcolo stati finali.
+
+## Integration Test
+
+Usati per:
+
+* repository;
+* transazioni;
+* JPA;
+* vincoli database;
+* Flyway.
+
+## Service Test
+
+Devono coprire:
+
+* creazione ordine;
+* stock insufficiente;
+* magazzino obbligatorio;
+* decremento stock;
+* approvazione senza modifica stock;
+* rifiuto o cancellazione con reintegro;
+* blocco modifiche su stati finali;
+* eventi audit.
+
+## MVC Test
+
+Da introdurre per:
+
+* rotte;
+* form;
+* sicurezza web;
+* azioni visibili e invocabili secondo ruolo.
+
+## Database nei Test
+
+Decisione:
+
+* H2 per test semplici e veloci;
+* Testcontainers PostgreSQL per locking, migrazioni e concorrenza realistica.
+
+## Porte nei Test
+
+Regole:
+
+* non usare la porta `8080` nei test automatici;
+* preferire `SpringBootTest.WebEnvironment.NONE` per service e context test;
+* usare `server.port=0` quando serve un server reale.
