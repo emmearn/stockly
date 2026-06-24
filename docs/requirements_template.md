@@ -26,7 +26,7 @@ Un requisito descrive cosa deve fare il sistema o quale vincolo funzionale deve 
 Usare questa struttura per requisiti definitivi o ad alto impatto:
 
 ```markdown
-## REQ-ORD-001 - Titolo breve
+## REQ-AREA-001 - Titolo breve
 
 **Descrizione**
 Descrizione chiara del comportamento richiesto.
@@ -162,60 +162,58 @@ Se non e possibile definire almeno un criterio di accettazione verificabile, il 
 
 # 7. Esempio di Requisito Ben Scritto
 
-## REQ-ORD-001 - Creazione ordine con magazzino obbligatorio
+## REQ-AREA-001 - Azione con risorsa obbligatoria
 
 **Descrizione**
-Il sistema deve permettere a un utente autorizzato di creare un ordine selezionando articolo, magazzino e quantita.
+Il sistema deve permettere a un utente autorizzato di eseguire un'azione selezionando una risorsa obbligatoria e una quantita valida.
 
 **Motivazione**
-Lo stock e gestito per combinazione articolo-magazzino; il magazzino e necessario per prenotare la giacenza corretta.
+La risorsa selezionata determina quale dato viene modificato e impedisce ambiguita operative.
 
 **Attori**
-USER, ADMIN, STORE_MANAGER.
+Utente autorizzato.
 
 **Precondizioni**
-* L'articolo esiste.
-* Il magazzino esiste.
-* La giacenza articolo-magazzino esiste.
+* L'utente e autorizzato.
+* La risorsa esiste.
+* La quantita richiesta e valida.
 
 **Flusso principale**
-1. L'utente seleziona articolo.
-2. L'utente seleziona magazzino.
-3. Il sistema mostra la disponibilita.
-4. L'utente inserisce quantita.
-5. Il sistema crea l'ordine in stato `REQUIRED`.
-6. Il sistema decrementa lo stock.
-7. Il sistema registra un evento audit.
+1. L'utente seleziona la risorsa.
+2. Il sistema mostra lo stato corrente della risorsa.
+3. L'utente inserisce la quantita.
+4. Il sistema valida la richiesta.
+5. Il sistema salva il nuovo stato.
 
 **Flussi alternativi / errori**
-* Se il magazzino non e selezionato, l'ordine non viene creato.
-* Se la quantita supera la disponibilita, l'ordine non viene creato.
+* Se la risorsa non e selezionata, l'azione non viene eseguita.
+* Se la quantita non e valida, l'azione non viene eseguita.
 
 **Regole di dominio collegate**
-* Magazzino obbligatorio.
-* Stock non negativo.
-* Creazione ordine in stato `REQUIRED`.
+* Risorsa obbligatoria.
+* Quantita valida.
+* Operazione atomica.
 
 **Criteri di accettazione**
-* Non e possibile creare un ordine senza magazzino.
-* Con stock sufficiente, l'ordine viene creato.
-* Lo stock viene decrementato della quantita richiesta.
-* Viene creato un evento `null -> REQUIRED`.
+* Non e possibile eseguire l'azione senza risorsa.
+* Non e possibile salvare una quantita non valida.
+* Con dati validi, lo stato della risorsa viene aggiornato.
+* L'utente riceve conferma dell'operazione.
 
 **Impatti**
 * Sicurezza: l'utente deve essere autorizzato.
-* Dati: crea ordine, righe ordine ed evento audit.
+* Dati: aggiorna lo stato della risorsa.
 * Integrazioni: nessuna.
 
 **Priorita**
 P0.
 
 **Stato**
-Implemented nella POC.
+Approved.
 
 **Tracciabilita**
-* Task: Motore Ordini.
-* Decisioni: ADR-005.
+* Task: riferimento al backlog.
+* Decisioni: eventuale ADR collegata.
 
 ---
 

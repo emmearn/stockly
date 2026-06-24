@@ -58,7 +58,7 @@ Loggare a `INFO`:
 * creazione ordine;
 * cambio stato ordine;
 * cancellazione o rifiuto ordine;
-* bootstrap o seed demo in ambiente POC.
+* bootstrap o seed demo in ambiente `local`, `poc` o `test`.
 
 Loggare a `WARN`:
 
@@ -113,7 +113,7 @@ Per il prodotto completo:
 * applicare ownership sugli ordini USER;
 * proteggere download PDF con le stesse regole del dettaglio ordine;
 * evitare endpoint amministrativi non protetti;
-* disabilitare H2 console fuori dal profilo POC.
+* disabilitare H2 console fuori dai profili `local` e `poc`.
 
 ---
 
@@ -127,7 +127,7 @@ Minacce da considerare nelle fasi successive:
 * download PDF non autorizzato;
 * esposizione di stack trace;
 * segreti committati o loggati;
-* H2 console esposta fuori dalla POC.
+* H2 console esposta fuori dagli ambienti ammessi.
 
 Mitigazioni:
 

@@ -85,4 +85,3 @@ Gli ordini demo includono gia stati `REQUIRED`, `APPROVED` e `CANCELED`.
 * `docs/tasks.md`
 * `docs/prompts.md`
 * `docs/decisions.md`
-* `docs/archive/poc.md`

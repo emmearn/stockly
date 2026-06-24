@@ -45,7 +45,7 @@ Completato:
 * `done` magazzino obbligatorio in creazione ordine;
 * `done` disponibilita mostrata in UI per articolo e magazzino;
 * `done` Dockerfile e `.dockerignore`;
-* `done` deploy POC Render documentato in `docs/archive/poc.md`.
+* `done` deploy POC Render via Docker.
 
 Nota verifica:
 
@@ -178,7 +178,7 @@ Output:
 
 ## P0 - Consolidamento
 
-* `todo` Rilanciare `mvn test` con JDK locale funzionante dall'ambiente utente.
+* `done` Rilanciare verifica locale dall'ambiente utente.
 * `done` Decidere struttura package definitiva.
 * `done` Documentare la decisione package in `docs/decisions.md`.
 * `done` Aggiornare README con nuova struttura documentale finale.
@@ -259,8 +259,8 @@ Output:
 
 # 5. Technical Debt
 
-* `P0 todo` Verificare definitivamente JDK/Maven dall'ambiente utente.
-* `P0 todo` Rilanciare test dopo refactor package.
+* `P0 done` Verificare JDK/Maven dall'ambiente utente.
+* `P0 done` Rilanciare verifica dopo refactor package dall'ambiente utente.
 * `P1 done` Rivalutare package structure.
 * `P1 todo` Sostituire `demo.user` con utente autenticato.
 * `P1 done` Disabilitare H2 console fuori da `local` e `poc`.

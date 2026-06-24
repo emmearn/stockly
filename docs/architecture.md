@@ -67,13 +67,24 @@ Regole:
 * Render Free per POC;
 * AWS App Runner e Amazon RDS PostgreSQL per una fase successiva.
 
+## Deploy POC Render
+
+La POC puo essere pubblicata su Render Free via Docker.
+
+Regole operative:
+
+* usare profilo `poc`;
+* configurare `SPRING_PROFILES_ACTIVE=poc`;
+* lasciare a Render la gestione della porta tramite variabile `PORT`;
+* usare `/stock` come health check manuale o pagina di verifica;
+* accettare che H2 in-memory riparta da zero a ogni restart;
+* non considerare Render Free una configurazione production-ready.
+
 ## Integrazioni
 
 Integrazioni previste o possibili:
 
 * database PostgreSQL per ambienti maturi;
-* Render Free per POC;
-* AWS App Runner e RDS per una fase successiva;
 * generazione PDF;
 * eventuali notifiche o esportazioni future.
 
@@ -274,14 +285,6 @@ azione approva -> OrderController -> OrderService -> StockOrder -> OrderStatusEv
 ```text
 azione cancella -> OrderController -> OrderService -> WarehouseItem -> StockOrder -> OrderStatusEvent
 ```
-
-## Deploy POC
-
-```text
-GitHub -> Render Docker build -> container Spring Boot -> H2 in-memory
-```
-
----
 
 # 6. Modello Dati
 

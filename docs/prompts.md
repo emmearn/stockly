@@ -16,8 +16,7 @@ Quando i documenti sono in conflitto, applicare questa precedenza:
 4. `docs/architecture.md` per struttura tecnica, componenti, modello dati e test strategy.
 5. `docs/design.md` per UI/UX e dettagli di design applicativo.
 6. `docs/tasks.md` per priorita operative, milestone e technical debt.
-7. `docs/decisions.md` per decisioni ADR.
-8. `docs/archive/poc.md` solo per dettagli storici e deploy POC Render.
+7. `docs/decisions.md` per decisioni ADR e contesto storico.
 
 Regole:
 
@@ -73,8 +72,7 @@ Applicare questa mappa:
 * sicurezza e logging: `docs/security.md`;
 * UI/UX: `docs/design.md`;
 * task e milestone: `docs/tasks.md`;
-* decisioni ADR: `docs/decisions.md`;
-* POC Render: `docs/archive/poc.md`.
+* decisioni ADR e contesto storico: `docs/decisions.md`.
 
 Regole operative:
 
