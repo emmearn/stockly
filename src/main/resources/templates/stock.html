@@ -9,7 +9,10 @@
 <body>
 <header>
   <div class="topbar">
-    <a class="brand" href="/stock">Stockly</a>
+    <a class="brand" href="/stock">
+      <img class="brand-logo" src="/stockly-logo.svg" alt="" aria-hidden="true">
+      <span>Stockly</span>
+    </a>
     <nav aria-label="Navigazione principale">
       <a href="/stock">Stock</a>
       <a href="/orders/new">Nuovo ordine</a>
@@ -55,6 +58,19 @@
         <td class="number" th:text="${stock.quantity}">50</td>
         <td>
           <div class="row-actions">
+            <div class="image-preview">
+              <button class="icon-button" type="button" aria-label="Mostra foto prodotto"
+                      title="Mostra foto prodotto">
+                <svg aria-hidden="true" viewBox="0 0 24 24">
+                  <rect x="4" y="5" width="16" height="14" rx="2"></rect>
+                  <circle cx="9" cy="10" r="1.5"></circle>
+                  <path d="M6.5 17l4.5-4.5 3 3 2-2 3.5 3.5"></path>
+                </svg>
+              </button>
+              <div class="image-preview-popup" role="tooltip">
+                <img src="/product-placeholder.png" alt="Anteprima prodotto">
+              </div>
+            </div>
             <a class="icon-button" th:href="@{/stock/availability/{stockId}/edit(stockId=${stock.id})}"
                aria-label="Modifica disponibilita" title="Modifica disponibilita">
               <svg aria-hidden="true" viewBox="0 0 24 24">
@@ -88,7 +104,7 @@
           <h2 th:text="${stock.item.name}">Bullone M8</h2>
           <p class="muted">
             <span th:text="${stock.item.brand}">Ferramenta Nord</span>
-            <span> · </span>
+            <span> - </span>
             <span th:text="${stock.item.type}">Bulloneria</span>
           </p>
         </div>
@@ -107,6 +123,19 @@
       </dl>
 
       <div class="row-actions mobile-actions">
+        <div class="image-preview">
+          <button class="icon-button" type="button" aria-label="Mostra foto prodotto"
+                  title="Mostra foto prodotto">
+            <svg aria-hidden="true" viewBox="0 0 24 24">
+              <rect x="4" y="5" width="16" height="14" rx="2"></rect>
+              <circle cx="9" cy="10" r="1.5"></circle>
+              <path d="M6.5 17l4.5-4.5 3 3 2-2 3.5 3.5"></path>
+            </svg>
+          </button>
+          <div class="image-preview-popup" role="tooltip">
+            <img src="/product-placeholder.png" alt="Anteprima prodotto">
+          </div>
+        </div>
         <a class="icon-button" th:href="@{/stock/availability/{stockId}/edit(stockId=${stock.id})}"
            aria-label="Modifica disponibilita" title="Modifica disponibilita">
           <svg aria-hidden="true" viewBox="0 0 24 24">

@@ -91,6 +91,7 @@ Regole:
 Componenti base:
 
 * header;
+* logo vettoriale del brand;
 * navigazione;
 * tabelle;
 * card mobile per liste operative;
@@ -100,11 +101,15 @@ Componenti base:
 * stepper numerico con `+` e `-`;
 * alert success/error;
 * badge stato ordine;
+* anteprima immagine prodotto;
+* azioni tabellari a icona;
 * pulsanti primari/secondari/danger;
 * pannello disponibilita stock.
 
 Regole:
 
+* il logo deve restare vettoriale e leggibile anche a dimensioni piccole;
+* le azioni ripetute nelle tabelle devono usare icone con `aria-label` e `title`;
 * i bottoni distruttivi usano stile `danger`;
 * gli stati ordine usano badge coerenti;
 * i form mostrano errori vicino al campo;
@@ -151,8 +156,9 @@ Responsabilita:
 
 * mostrare stato corrente;
 * mostrare righe ordine;
-* mostrare azioni disponibili;
+* mostrare azioni disponibili come icone coerenti con la lista stock;
 * distinguere stati finali da ordini modificabili.
+* mostrare un'icona non interattiva quando non ci sono azioni disponibili.
 
 ## Liste Operative Mobile
 
@@ -163,6 +169,16 @@ Responsabilita:
 * mostrare ogni riga come card su viewport piccoli;
 * mettere le informazioni principali nell'intestazione della card;
 * mantenere azioni e stato chiaramente visibili.
+
+## Anteprima Prodotto
+
+Responsabilita:
+
+* mostrare una piccola icona immagine nelle righe stock;
+* aprire un popup con la foto prodotto al passaggio mouse;
+* usare un placeholder finche non esiste una foto specifica;
+* mantenere il popup accessibile anche da focus tastiera;
+* non appesantire la lista stock con immagini sempre visibili.
 
 ## Badge Stato
 
@@ -218,6 +234,7 @@ Regole:
 * le liste operative usano tabelle su desktop e card su mobile;
 * evitare scroll orizzontale per stock e ordini su smartphone;
 * evitare overflow di testo nei bottoni;
+* le anteprime immagine devono restare contenute nel viewport su mobile;
 * mantenere target cliccabili comodi.
 
 ---

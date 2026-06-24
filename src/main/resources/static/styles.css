@@ -45,10 +45,19 @@ header {
 }
 
 .brand {
+  align-items: center;
   color: var(--text);
+  display: inline-flex;
   font-size: 20px;
+  gap: 10px;
   font-weight: 700;
   text-decoration: none;
+}
+
+.brand-logo {
+  display: block;
+  height: 34px;
+  width: 34px;
 }
 
 nav {
@@ -223,7 +232,7 @@ tr:last-child td {
 }
 
 .actions-column {
-  width: 112px;
+  width: 150px;
 }
 
 .row-actions {
@@ -235,6 +244,10 @@ tr:last-child td {
 
 .row-actions form {
   margin: 0;
+}
+
+.order-actions {
+  justify-content: flex-start;
 }
 
 .icon-button {
@@ -258,6 +271,18 @@ tr:last-child td {
   color: #ffffff;
 }
 
+.icon-button.success-action {
+  background: #ffffff;
+  border-color: var(--line);
+  color: var(--success-text);
+}
+
+.icon-button.success-action:hover {
+  background: var(--success-text);
+  border-color: var(--success-text);
+  color: #ffffff;
+}
+
 .icon-button.danger {
   background: #ffffff;
   border-color: var(--line);
@@ -270,6 +295,13 @@ tr:last-child td {
   color: #ffffff;
 }
 
+.icon-button.disabled {
+  background: #f1f3f5;
+  border-color: var(--line);
+  color: #89939f;
+  cursor: default;
+}
+
 .icon-button svg {
   fill: none;
   height: 18px;
@@ -278,6 +310,50 @@ tr:last-child td {
   stroke-linejoin: round;
   stroke-width: 2;
   width: 18px;
+}
+
+.image-preview {
+  position: relative;
+}
+
+.image-preview-popup {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  box-shadow: 0 12px 28px rgba(23, 32, 42, 0.18);
+  display: none;
+  padding: 8px;
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  width: 220px;
+  z-index: 20;
+}
+
+.image-preview:hover .image-preview-popup,
+.image-preview:focus-within .image-preview-popup {
+  display: block;
+}
+
+.image-preview-popup::before {
+  background: var(--surface);
+  border-left: 1px solid var(--line);
+  border-top: 1px solid var(--line);
+  content: "";
+  height: 10px;
+  position: absolute;
+  right: 12px;
+  top: -6px;
+  transform: rotate(45deg);
+  width: 10px;
+}
+
+.image-preview-popup img {
+  aspect-ratio: 4 / 3;
+  border-radius: 4px;
+  display: block;
+  object-fit: cover;
+  width: 100%;
 }
 
 .form-panel {
@@ -475,5 +551,16 @@ input {
 
   .row-actions.mobile-actions {
     justify-content: flex-start;
+  }
+
+  .image-preview-popup {
+    left: 0;
+    right: auto;
+    width: min(240px, calc(100vw - 56px));
+  }
+
+  .image-preview-popup::before {
+    left: 12px;
+    right: auto;
   }
 }

@@ -90,6 +90,8 @@ Regole:
 * controllare campi obbligatori;
 * controllare transizioni ordine;
 * controllare ownership e ruoli lato server.
+* per upload immagini, validare tipo file, dimensione massima, estensione e contenuto effettivo;
+* non fidarsi del nome file originale caricato dall'utente.
 
 Esempi:
 
@@ -125,6 +127,7 @@ Minacce da considerare nelle fasi successive:
 * escalation di privilegi tra USER, STORE_MANAGER e ADMIN;
 * manipolazione lato client di quantita o magazzino;
 * download PDF non autorizzato;
+* upload di file non immagine o troppo grandi;
 * esposizione di stack trace;
 * segreti committati o loggati;
 * H2 console esposta fuori dagli ambienti ammessi.
@@ -153,4 +156,5 @@ Vietato:
 * introdurre setter globali sulle entity senza necessita;
 * usare `@Data` sulle entity JPA;
 * lasciare console H2 abilitata in produzione;
+* servire file caricati senza validazione e regole di accesso;
 * usare la porta `8080` nei test automatici.

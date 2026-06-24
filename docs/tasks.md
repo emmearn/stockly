@@ -245,6 +245,7 @@ Output:
 * `done` Creare form nuova disponibilita con dati articolo, magazzino e quantita.
 * `done` Correggere caricamento dati per form modifica disponibilita evitando lazy loading fuori sessione.
 * `done` Aggiungere card mobile per lista disponibilita.
+* `done` Aggiungere icona anteprima foto prodotto con placeholder nella lista disponibilita.
 * `done` Creare command/form disponibilita.
 * `done` Creare service inserimento o modifica disponibilita.
 * `done` Creare form modifica disponibilita.
@@ -259,6 +260,7 @@ Output:
 * `todo` Aggiungere ricerca per marca.
 * `todo` Aggiungere ricerca per tipologia.
 * `todo` Aggiungere filtro per magazzino.
+* `todo` Aggiungere upload immagine prodotto nel form nuova disponibilita.
 
 ## P1 - Ordini
 
@@ -271,6 +273,7 @@ Output:
 * `todo` Salvare motivazione cancellazione, se richiesta.
 * `todo` Applicare locking sulle righe stock.
 * `done` Aggiungere card mobile per lista ordini.
+* `done` Uniformare azioni lista ordini con icone per approve, cancel e no action.
 * `todo` Testare transizioni non valide.
 * `todo` Testare eventi audit.
 

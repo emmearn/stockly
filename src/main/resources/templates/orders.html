@@ -9,7 +9,10 @@
 <body>
 <header>
   <div class="topbar">
-    <a class="brand" href="/stock">Stockly</a>
+    <a class="brand" href="/stock">
+      <img class="brand-logo" src="/stockly-logo.svg" alt="" aria-hidden="true">
+      <span>Stockly</span>
+    </a>
     <nav aria-label="Navigazione principale">
       <a href="/stock">Stock</a>
       <a href="/orders/new">Nuovo ordine</a>
@@ -38,7 +41,7 @@
         <th>Stato</th>
         <th>Creazione</th>
         <th>Righe</th>
-        <th>Azioni</th>
+        <th class="actions-column">Azioni</th>
       </tr>
       </thead>
       <tbody>
@@ -57,15 +60,34 @@
           </div>
         </td>
         <td>
-          <div class="actions" th:if="${row.order.status.name() == 'REQUIRED'}">
+          <div class="row-actions order-actions" th:if="${row.order.status.name() == 'REQUIRED'}">
             <form th:action="@{/orders/{id}/approve(id=${row.order.id})}" method="post">
-              <button type="submit">Approva</button>
+              <button class="icon-button success-action" type="submit" aria-label="Approva ordine"
+                      title="Approva ordine">
+                <svg aria-hidden="true" viewBox="0 0 24 24">
+                  <path d="M20 6 9 17l-5-5"></path>
+                </svg>
+              </button>
             </form>
             <form th:action="@{/orders/{id}/cancel(id=${row.order.id})}" method="post">
-              <button class="danger" type="submit">Cancella</button>
+              <button class="icon-button danger" type="submit" aria-label="Cancella ordine"
+                      title="Cancella ordine">
+                <svg aria-hidden="true" viewBox="0 0 24 24">
+                  <path d="M18 6 6 18"></path>
+                  <path d="M6 6l12 12"></path>
+                </svg>
+              </button>
             </form>
           </div>
-          <span class="muted" th:unless="${row.order.status.name() == 'REQUIRED'}">Stato finale</span>
+          <div class="row-actions order-actions" th:unless="${row.order.status.name() == 'REQUIRED'}">
+            <span class="icon-button disabled" aria-label="Nessuna azione disponibile"
+                  title="Nessuna azione disponibile">
+              <svg aria-hidden="true" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="8"></circle>
+                <path d="M8 8l8 8"></path>
+              </svg>
+            </span>
+          </div>
         </td>
       </tr>
       </tbody>
@@ -96,7 +118,7 @@
           <dd>
             <div th:each="line : ${row.order.items}">
               <span th:text="${line.item.name}">Bullone M8</span>
-              <span> · </span>
+              <span> - </span>
               <span th:text="${line.warehouse.name}">Elmas</span>
               <span> x </span>
               <span th:text="${line.quantity}">5</span>
@@ -105,15 +127,34 @@
         </div>
       </dl>
 
-      <div class="actions mobile-actions" th:if="${row.order.status.name() == 'REQUIRED'}">
+      <div class="row-actions mobile-actions" th:if="${row.order.status.name() == 'REQUIRED'}">
         <form th:action="@{/orders/{id}/approve(id=${row.order.id})}" method="post">
-          <button type="submit">Approva</button>
+          <button class="icon-button success-action" type="submit" aria-label="Approva ordine"
+                  title="Approva ordine">
+            <svg aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M20 6 9 17l-5-5"></path>
+            </svg>
+          </button>
         </form>
         <form th:action="@{/orders/{id}/cancel(id=${row.order.id})}" method="post">
-          <button class="danger" type="submit">Cancella</button>
+          <button class="icon-button danger" type="submit" aria-label="Cancella ordine"
+                  title="Cancella ordine">
+            <svg aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M18 6 6 18"></path>
+              <path d="M6 6l12 12"></path>
+            </svg>
+          </button>
         </form>
       </div>
-      <span class="muted" th:unless="${row.order.status.name() == 'REQUIRED'}">Stato finale</span>
+      <div class="row-actions mobile-actions" th:unless="${row.order.status.name() == 'REQUIRED'}">
+        <span class="icon-button disabled" aria-label="Nessuna azione disponibile"
+              title="Nessuna azione disponibile">
+          <svg aria-hidden="true" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="8"></circle>
+            <path d="M8 8l8 8"></path>
+          </svg>
+        </span>
+      </div>
     </article>
   </div>
 </main>

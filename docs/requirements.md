@@ -128,6 +128,8 @@ Ogni articolo possiede:
 * marca;
 * tipologia.
 
+In futuro ogni articolo potra avere una foto prodotto opzionale.
+
 ## Giacenze
 
 Ogni combinazione articolo-magazzino mantiene una quantita disponibile.
@@ -149,7 +151,7 @@ Regole:
 * la quantita minima e `0`;
 * il valore salvato e assoluto, non incrementale;
 * salvare una combinazione inesistente crea una nuova giacenza;
-* salvare una combinazione esistente aggiorna la giacenza.
+* salvare una combinazione esistente aggiorna la giacenza;
 * l'utente puo eliminare una disponibilita esistente dalla lista stock.
 
 ## Ricerca Articoli
@@ -191,6 +193,7 @@ Come utente voglio consultare disponibilita per articolo e magazzino, cosi posso
 Acceptance criteria:
 
 * lo stock mostra articolo, magazzino e quantita disponibile;
+* lo stock puo mostrare un'anteprima immagine prodotto;
 * lo stesso articolo puo comparire su piu magazzini;
 * le quantita non possono essere negative.
 
@@ -439,6 +442,7 @@ MVP post-POC:
 
 Funzionalita future:
 
+* upload immagine prodotto dal form `Nuova disponibilita`;
 * PDF ordine;
 * motivazione obbligatoria o opzionale per reject/cancel, da decidere;
 * dashboard statistiche;
