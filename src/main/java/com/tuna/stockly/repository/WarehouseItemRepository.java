@@ -20,6 +20,15 @@ public interface WarehouseItemRepository extends JpaRepository<WarehouseItem, Lo
 			from WarehouseItem wi
 			join fetch wi.item item
 			join fetch wi.warehouse warehouse
+			where wi.id = :id
+			""")
+	Optional<WarehouseItem> findByIdForStockView(Long id);
+
+	@Query("""
+			select wi
+			from WarehouseItem wi
+			join fetch wi.item item
+			join fetch wi.warehouse warehouse
 			order by item.name asc, warehouse.name asc
 			""")
 	List<WarehouseItem> findAllForStockView();

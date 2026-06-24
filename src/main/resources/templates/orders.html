@@ -71,6 +71,51 @@
       </tbody>
     </table>
   </div>
+
+  <div class="mobile-card-list" aria-label="Ordini">
+    <article class="mobile-card" th:each="row : ${orders}">
+      <div class="mobile-card-header">
+        <div>
+          <h2>
+            <span>Ordine #</span><span th:text="${row.order.id}">1</span>
+          </h2>
+          <p class="muted" th:text="${#temporals.format(row.requestedEvent.authorizedAt, 'yyyy-MM-dd HH:mm')}">
+            2026-06-11 10:00
+          </p>
+        </div>
+        <span class="status" th:classappend="${row.order.status}" th:text="${row.order.status}">REQUIRED</span>
+      </div>
+
+      <dl class="mobile-details">
+        <div>
+          <dt>Richiedente</dt>
+          <dd th:text="${row.requestedEvent.authorizedByUserId}">demo.user</dd>
+        </div>
+        <div>
+          <dt>Righe</dt>
+          <dd>
+            <div th:each="line : ${row.order.items}">
+              <span th:text="${line.item.name}">Bullone M8</span>
+              <span> · </span>
+              <span th:text="${line.warehouse.name}">Elmas</span>
+              <span> x </span>
+              <span th:text="${line.quantity}">5</span>
+            </div>
+          </dd>
+        </div>
+      </dl>
+
+      <div class="actions mobile-actions" th:if="${row.order.status.name() == 'REQUIRED'}">
+        <form th:action="@{/orders/{id}/approve(id=${row.order.id})}" method="post">
+          <button type="submit">Approva</button>
+        </form>
+        <form th:action="@{/orders/{id}/cancel(id=${row.order.id})}" method="post">
+          <button class="danger" type="submit">Cancella</button>
+        </form>
+      </div>
+      <span class="muted" th:unless="${row.order.status.name() == 'REQUIRED'}">Stato finale</span>
+    </article>
+  </div>
 </main>
 </body>
 </html>

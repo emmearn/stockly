@@ -93,6 +93,7 @@ Componenti base:
 * header;
 * navigazione;
 * tabelle;
+* card mobile per liste operative;
 * form;
 * select;
 * input number;
@@ -153,6 +154,16 @@ Responsabilita:
 * mostrare azioni disponibili;
 * distinguere stati finali da ordini modificabili.
 
+## Liste Operative Mobile
+
+Responsabilita:
+
+* evitare scroll orizzontale su smartphone;
+* mantenere le tabelle su desktop e tablet larghi;
+* mostrare ogni riga come card su viewport piccoli;
+* mettere le informazioni principali nell'intestazione della card;
+* mantenere azioni e stato chiaramente visibili.
+
 ## Badge Stato
 
 Stati:
@@ -204,7 +215,8 @@ Regole:
 
 * layout mobile first per form;
 * header e page title possono andare in colonna su viewport piccoli;
-* tabelle operative possono usare scroll orizzontale;
+* le liste operative usano tabelle su desktop e card su mobile;
+* evitare scroll orizzontale per stock e ordini su smartphone;
 * evitare overflow di testo nei bottoni;
 * mantenere target cliccabili comodi.
 

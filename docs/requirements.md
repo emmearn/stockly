@@ -139,6 +139,9 @@ La disponibilita puo essere inserita o modificata manualmente da UI.
 Regole:
 
 * l'utente seleziona articolo e magazzino;
+* l'utente puo creare una nuova disponibilita indicando articolo, barcode, marca, tipologia, magazzino e quantita;
+* se il barcode esiste gia, i dati articolo inseriti devono coincidere con l'articolo esistente;
+* non possono esistere due disponibilita per la stessa combinazione articolo-magazzino;
 * se la combinazione articolo-magazzino esiste, il sistema mostra la quantita attuale;
 * se la combinazione articolo-magazzino non esiste, il sistema mostra quantita attuale `0`;
 * la quantita e modificabile da tastiera;
@@ -147,6 +150,7 @@ Regole:
 * il valore salvato e assoluto, non incrementale;
 * salvare una combinazione inesistente crea una nuova giacenza;
 * salvare una combinazione esistente aggiorna la giacenza.
+* l'utente puo eliminare una disponibilita esistente dalla lista stock.
 
 ## Ricerca Articoli
 
@@ -205,6 +209,30 @@ Acceptance criteria:
 * il salvataggio imposta la quantita finale al valore indicato;
 * se la riga non esiste, viene creata;
 * se la riga esiste, viene aggiornata;
+* al termine l'utente torna alla lista stock con messaggio di successo.
+
+## Nuova Disponibilita
+
+Come ADMIN o STORE_MANAGER voglio creare una nuova disponibilita indicando dati articolo e magazzino, cosi posso aggiungere velocemente una riga stock non ancora presente.
+
+Acceptance criteria:
+
+* il form richiede articolo, barcode, marca, tipologia, magazzino e quantita;
+* se il barcode non esiste, viene creato un nuovo articolo;
+* se il barcode esiste, i dati inseriti devono coincidere con l'articolo esistente;
+* non e consentita una seconda disponibilita per la stessa coppia articolo-magazzino;
+* la quantita minima e `0`;
+* al termine l'utente torna alla lista stock con messaggio di successo.
+
+## Eliminazione Disponibilita
+
+Come ADMIN o STORE_MANAGER voglio eliminare una disponibilita esistente dalla lista stock, cosi posso rimuovere righe non piu gestite.
+
+Acceptance criteria:
+
+* ogni riga stock mostra un'azione di eliminazione;
+* l'eliminazione rimuove la riga di disponibilita;
+* l'eliminazione non rimuove l'anagrafica articolo;
 * al termine l'utente torna alla lista stock con messaggio di successo.
 
 ## Creazione Ordine
@@ -286,6 +314,7 @@ Regole:
 Le seguenti regole devono essere sempre vere:
 
 * la quantita stock non puo essere negativa;
+* la coppia articolo-magazzino deve essere univoca;
 * la modifica manuale della disponibilita salva una quantita assoluta;
 * non si puo prenotare piu della disponibilita;
 * ogni modifica stock collegata a un ordine deve essere transazionale;

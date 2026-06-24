@@ -1,8 +1,10 @@
 package com.tuna.stockly.web;
 
+import com.tuna.stockly.dto.CreateAvailabilityCommand;
+import com.tuna.stockly.dto.CreateAvailabilityForm;
 import com.tuna.stockly.dto.UpdateAvailabilityCommand;
 import com.tuna.stockly.dto.UpdateAvailabilityForm;
-import com.tuna.stockly.repository.ItemRepository;
+import com.tuna.stockly.entity.WarehouseItem;
 import com.tuna.stockly.repository.WarehouseItemRepository;
 import com.tuna.stockly.repository.WarehouseRepository;
 import com.tuna.stockly.service.StockService;
@@ -12,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -20,14 +23,12 @@ public class StockController {
 
 	private final StockService stockService;
 	private final WarehouseItemRepository warehouseItemRepository;
-	private final ItemRepository itemRepository;
 	private final WarehouseRepository warehouseRepository;
 
 	public StockController(StockService stockService, WarehouseItemRepository warehouseItemRepository,
-			ItemRepository itemRepository, WarehouseRepository warehouseRepository) {
+			WarehouseRepository warehouseRepository) {
 		this.stockService = stockService;
 		this.warehouseItemRepository = warehouseItemRepository;
-		this.itemRepository = itemRepository;
 		this.warehouseRepository = warehouseRepository;
 	}
 
@@ -38,19 +39,61 @@ public class StockController {
 	}
 
 	@GetMapping("/stock/availability")
-	public String editAvailability(Model model) {
+	public String availability() {
+		return "redirect:/stock/availability/new";
+	}
+
+	@GetMapping("/stock/availability/new")
+	public String newAvailability(Model model) {
 		if (!model.containsAttribute("form")) {
-			model.addAttribute("form", new UpdateAvailabilityForm());
+			model.addAttribute("form", new CreateAvailabilityForm());
 		}
-		addAvailabilityOptions(model);
+		addWarehouseOptions(model);
+		return "new-availability-form";
+	}
+
+	@PostMapping("/stock/availability/new")
+	public String createAvailability(@Valid @ModelAttribute("form") CreateAvailabilityForm form,
+			BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
+		if (bindingResult.hasErrors()) {
+			addWarehouseOptions(model);
+			return "new-availability-form";
+		}
+
+		try {
+			stockService.createAvailability(new CreateAvailabilityCommand(form.getBarcode(), form.getItemName(),
+					form.getBrand(), form.getType(), form.getWarehouseId(), form.getQuantity()));
+			redirectAttributes.addFlashAttribute("success", "Disponibilita creata.");
+			return "redirect:/stock";
+		}
+		catch (RuntimeException ex) {
+			model.addAttribute("error", ex.getMessage());
+			addWarehouseOptions(model);
+			return "new-availability-form";
+		}
+	}
+
+	@GetMapping("/stock/availability/{stockId}/edit")
+	public String editAvailability(@PathVariable Long stockId, Model model) {
+		WarehouseItem stock = stockService.getAvailability(stockId);
+		if (!model.containsAttribute("form")) {
+			UpdateAvailabilityForm form = new UpdateAvailabilityForm();
+			form.setItemId(stock.getItem().getId());
+			form.setWarehouseId(stock.getWarehouse().getId());
+			form.setQuantity(stock.getQuantity());
+			model.addAttribute("form", form);
+		}
+		model.addAttribute("stock", stock);
 		return "availability-form";
 	}
 
-	@PostMapping("/stock/availability")
-	public String saveAvailability(@Valid @ModelAttribute("form") UpdateAvailabilityForm form,
-			BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
+	@PostMapping("/stock/availability/{stockId}/edit")
+	public String updateAvailability(@PathVariable Long stockId,
+			@Valid @ModelAttribute("form") UpdateAvailabilityForm form, BindingResult bindingResult, Model model,
+			RedirectAttributes redirectAttributes) {
+		WarehouseItem stock = stockService.getAvailability(stockId);
 		if (bindingResult.hasErrors()) {
-			addAvailabilityOptions(model);
+			model.addAttribute("stock", stock);
 			return "availability-form";
 		}
 
@@ -62,14 +105,19 @@ public class StockController {
 		}
 		catch (RuntimeException ex) {
 			model.addAttribute("error", ex.getMessage());
-			addAvailabilityOptions(model);
+			model.addAttribute("stock", stock);
 			return "availability-form";
 		}
 	}
 
-	private void addAvailabilityOptions(Model model) {
-		model.addAttribute("items", itemRepository.findAll());
+	@PostMapping("/stock/availability/{stockId}/delete")
+	public String deleteAvailability(@PathVariable Long stockId, RedirectAttributes redirectAttributes) {
+		stockService.deleteAvailability(stockId);
+		redirectAttributes.addFlashAttribute("success", "Disponibilita eliminata.");
+		return "redirect:/stock";
+	}
+
+	private void addWarehouseOptions(Model model) {
 		model.addAttribute("warehouses", warehouseRepository.findAll());
-		model.addAttribute("stockRows", warehouseItemRepository.findAllForStockView());
 	}
 }

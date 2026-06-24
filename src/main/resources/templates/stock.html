@@ -24,8 +24,8 @@
       <p class="muted">Giacenze disponibili per articolo e magazzino.</p>
     </div>
     <div class="actions">
-      <a class="button secondary" href="/stock/availability">Modifica disponibilita</a>
       <a class="button" href="/orders/new">Nuovo ordine</a>
+      <a class="button secondary" href="/stock/availability/new">Nuova disponibilita</a>
     </div>
   </div>
 
@@ -42,6 +42,7 @@
         <th>Tipologia</th>
         <th>Magazzino</th>
         <th class="number">Quantita</th>
+        <th class="actions-column">Azioni</th>
       </tr>
       </thead>
       <tbody>
@@ -52,9 +53,81 @@
         <td th:text="${stock.item.type}">Bulloneria</td>
         <td th:text="${stock.warehouse.name}">Elmas</td>
         <td class="number" th:text="${stock.quantity}">50</td>
+        <td>
+          <div class="row-actions">
+            <a class="icon-button" th:href="@{/stock/availability/{stockId}/edit(stockId=${stock.id})}"
+               aria-label="Modifica disponibilita" title="Modifica disponibilita">
+              <svg aria-hidden="true" viewBox="0 0 24 24">
+                <path d="M4 20h4l10.5-10.5-4-4L4 16v4z"></path>
+                <path d="M13.5 6.5l4 4"></path>
+              </svg>
+            </a>
+            <form th:action="@{/stock/availability/{stockId}/delete(stockId=${stock.id})}" method="post">
+              <button class="icon-button danger" type="submit" aria-label="Elimina disponibilita"
+                      title="Elimina disponibilita">
+                <svg aria-hidden="true" viewBox="0 0 24 24">
+                  <path d="M5 7h14"></path>
+                  <path d="M10 11v6"></path>
+                  <path d="M14 11v6"></path>
+                  <path d="M8 7l1-3h6l1 3"></path>
+                  <path d="M7 7l1 13h8l1-13"></path>
+                </svg>
+              </button>
+            </form>
+          </div>
+        </td>
       </tr>
       </tbody>
     </table>
+  </div>
+
+  <div class="mobile-card-list" aria-label="Disponibilita">
+    <article class="mobile-card" th:each="stock : ${stocks}">
+      <div class="mobile-card-header">
+        <div>
+          <h2 th:text="${stock.item.name}">Bullone M8</h2>
+          <p class="muted">
+            <span th:text="${stock.item.brand}">Ferramenta Nord</span>
+            <span> · </span>
+            <span th:text="${stock.item.type}">Bulloneria</span>
+          </p>
+        </div>
+        <strong class="quantity-badge" th:text="${stock.quantity}">50</strong>
+      </div>
+
+      <dl class="mobile-details">
+        <div>
+          <dt>Barcode</dt>
+          <dd th:text="${stock.item.barcode}">800000000001</dd>
+        </div>
+        <div>
+          <dt>Magazzino</dt>
+          <dd th:text="${stock.warehouse.name}">Elmas</dd>
+        </div>
+      </dl>
+
+      <div class="row-actions mobile-actions">
+        <a class="icon-button" th:href="@{/stock/availability/{stockId}/edit(stockId=${stock.id})}"
+           aria-label="Modifica disponibilita" title="Modifica disponibilita">
+          <svg aria-hidden="true" viewBox="0 0 24 24">
+            <path d="M4 20h4l10.5-10.5-4-4L4 16v4z"></path>
+            <path d="M13.5 6.5l4 4"></path>
+          </svg>
+        </a>
+        <form th:action="@{/stock/availability/{stockId}/delete(stockId=${stock.id})}" method="post">
+          <button class="icon-button danger" type="submit" aria-label="Elimina disponibilita"
+                  title="Elimina disponibilita">
+            <svg aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M5 7h14"></path>
+              <path d="M10 11v6"></path>
+              <path d="M14 11v6"></path>
+              <path d="M8 7l1-3h6l1 3"></path>
+              <path d="M7 7l1 13h8l1-13"></path>
+            </svg>
+          </button>
+        </form>
+      </div>
+    </article>
   </div>
 </main>
 </body>

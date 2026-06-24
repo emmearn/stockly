@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Stockly - Modifica disponibilita</title>
+  <title>Stockly - Nuova disponibilita</title>
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
@@ -20,43 +20,47 @@
 <main>
   <div class="page-title">
     <div>
-      <h1>Modifica disponibilita</h1>
-      <p class="muted">Aggiorna la quantita disponibile per la riga selezionata.</p>
+      <h1>Nuova disponibilita</h1>
+      <p class="muted">Inserisci articolo, magazzino e quantita disponibile.</p>
     </div>
     <a class="button secondary" href="/stock">Torna allo stock</a>
   </div>
 
   <div class="alert error" th:if="${error}" th:text="${error}">Errore</div>
 
-  <form class="form-panel" th:action="@{/stock/availability/{stockId}/edit(stockId=${stock.id})}" method="post" th:object="${form}">
-    <input type="hidden" th:field="*{itemId}">
-    <input type="hidden" th:field="*{warehouseId}">
+  <form class="form-panel" action="/stock/availability/new" method="post" th:object="${form}">
+    <div class="field">
+      <label for="itemName">Articolo</label>
+      <input id="itemName" type="text" maxlength="150" th:field="*{itemName}">
+      <div class="field-error" th:if="${#fields.hasErrors('itemName')}" th:errors="*{itemName}">Errore articolo</div>
+    </div>
 
-    <dl class="summary-list">
-      <div>
-        <dt>Articolo</dt>
-        <dd th:text="${stock.item.name}">Bullone M8</dd>
-      </div>
-      <div>
-        <dt>Barcode</dt>
-        <dd th:text="${stock.item.barcode}">800000000001</dd>
-      </div>
-      <div>
-        <dt>Marca</dt>
-        <dd th:text="${stock.item.brand}">Ferramenta Nord</dd>
-      </div>
-      <div>
-        <dt>Tipologia</dt>
-        <dd th:text="${stock.item.type}">Bulloneria</dd>
-      </div>
-      <div>
-        <dt>Magazzino</dt>
-        <dd th:text="${stock.warehouse.name}">Elmas</dd>
-      </div>
-    </dl>
+    <div class="field">
+      <label for="barcode">Barcode</label>
+      <input id="barcode" type="text" maxlength="64" th:field="*{barcode}">
+      <div class="field-error" th:if="${#fields.hasErrors('barcode')}" th:errors="*{barcode}">Errore barcode</div>
+    </div>
 
-    <div class="availability-panel" aria-live="polite">
-      <strong>Quantita attuale:</strong> <span th:text="${stock.quantity}">50</span> pezzi.
+    <div class="field">
+      <label for="brand">Marca</label>
+      <input id="brand" type="text" maxlength="100" th:field="*{brand}">
+      <div class="field-error" th:if="${#fields.hasErrors('brand')}" th:errors="*{brand}">Errore marca</div>
+    </div>
+
+    <div class="field">
+      <label for="type">Tipologia</label>
+      <input id="type" type="text" maxlength="100" th:field="*{type}">
+      <div class="field-error" th:if="${#fields.hasErrors('type')}" th:errors="*{type}">Errore tipologia</div>
+    </div>
+
+    <div class="field">
+      <label for="warehouseId">Magazzino</label>
+      <select id="warehouseId" th:field="*{warehouseId}">
+        <option value="">Seleziona magazzino</option>
+        <option th:each="warehouse : ${warehouses}" th:value="${warehouse.id}"
+                th:text="${warehouse.name}">Elmas</option>
+      </select>
+      <div class="field-error" th:if="${#fields.hasErrors('warehouseId')}" th:errors="*{warehouseId}">Errore magazzino</div>
     </div>
 
     <div class="field">
@@ -69,7 +73,7 @@
       <div class="field-error" th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}">Errore quantita</div>
     </div>
 
-    <button type="submit">Salva disponibilita</button>
+    <button type="submit">Crea disponibilita</button>
   </form>
 </main>
 <script>

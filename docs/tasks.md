@@ -58,6 +58,12 @@ Nota verifica:
 
 Obiettivo: evolvere la POC in un'applicazione interna usabile con utenti, ruoli, anagrafiche e workflow ordini completo.
 
+Nota di lettura:
+
+* questa sezione definisce lo scope dell'MVP;
+* non rappresenta l'ordine operativo dei lavori;
+* l'ordine operativo e definito da `Current Phase`, `Milestones` e `Tasks`.
+
 Scope MVP:
 
 * struttura package definitiva;
@@ -83,7 +89,31 @@ Fuori MVP:
 
 ---
 
-# 3. Milestones
+# 3. Current Phase
+
+Fase corrente: `MVP foundation`.
+
+Obiettivo: sostituire i residui POC con fondamenta applicative reali prima di estendere CRUD, ordini e deploy.
+
+Prossimo step consigliato: `P1 - Sicurezza`.
+
+Motivo:
+
+* l'audit ordine deve usare utenti reali invece di `demo.user`;
+* ownership ordini e autorizzazioni dipendono da autenticazione e ruoli;
+* CRUD magazzini, articoli e giacenze dovranno essere protetti per ruolo;
+* introdurre sicurezza dopo le nuove schermate aumenterebbe il rework.
+
+Sequenza consigliata:
+
+1. completare sicurezza minimale;
+2. completare CRUD magazzini e articoli;
+3. evolvere ordini a multi-riga;
+4. rafforzare test e gestione errori.
+
+---
+
+# 4. Milestones
 
 ## 1. Fondazione Progetto Completo
 
@@ -174,7 +204,7 @@ Output:
 
 ---
 
-# 4. Tasks
+# 5. Tasks
 
 ## P0 - Consolidamento
 
@@ -210,6 +240,11 @@ Output:
 * `todo` Creare pagina lista articoli.
 * `todo` Creare form nuovo articolo.
 * `done` Creare pagina lista giacenze.
+* `done` Spostare modifica disponibilita su icona per ogni riga stock.
+* `done` Aggiungere eliminazione disponibilita da ogni riga stock.
+* `done` Creare form nuova disponibilita con dati articolo, magazzino e quantita.
+* `done` Correggere caricamento dati per form modifica disponibilita evitando lazy loading fuori sessione.
+* `done` Aggiungere card mobile per lista disponibilita.
 * `done` Creare command/form disponibilita.
 * `done` Creare service inserimento o modifica disponibilita.
 * `done` Creare form modifica disponibilita.
@@ -235,6 +270,7 @@ Output:
 * `todo` Salvare motivazione rifiuto.
 * `todo` Salvare motivazione cancellazione, se richiesta.
 * `todo` Applicare locking sulle righe stock.
+* `done` Aggiungere card mobile per lista ordini.
 * `todo` Testare transizioni non valide.
 * `todo` Testare eventi audit.
 
@@ -257,7 +293,7 @@ Output:
 
 ---
 
-# 5. Technical Debt
+# 6. Technical Debt
 
 * `P0 done` Verificare JDK/Maven dall'ambiente utente.
 * `P0 done` Rilanciare verifica dopo refactor package dall'ambiente utente.
@@ -270,7 +306,7 @@ Output:
 
 ---
 
-# 6. Future Features
+# 7. Future Features
 
 * PDF ordine.
 * Dashboard statistiche.
