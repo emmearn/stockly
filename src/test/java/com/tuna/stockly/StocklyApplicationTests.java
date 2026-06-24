@@ -38,8 +38,8 @@ class StocklyApplicationTests {
 	@Test
 	void loadsDemoData() {
 		assertThat(warehouseRepository.count()).isEqualTo(2);
-		assertThat(itemRepository.count()).isEqualTo(20);
-		assertThat(warehouseItemRepository.count()).isEqualTo(30);
+		assertThat(itemRepository.count()).isEqualTo(10);
+		assertThat(warehouseItemRepository.count()).isEqualTo(16);
 		assertThat(stockOrderRepository.count()).isEqualTo(10);
 		assertThat(orderStatusEventRepository.count()).isEqualTo(16);
 	}

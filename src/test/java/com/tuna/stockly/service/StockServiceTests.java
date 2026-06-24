@@ -48,16 +48,16 @@ class StockServiceTests {
 
 	@Test
 	void updateAvailabilityCreatesMissingStockRow() {
-		Item silicone = item("800000000011");
-		Warehouse quartucciu = warehouse("Quartucciu");
+		Item cementBag = item("800000000009");
+		Warehouse elmas = warehouse("Elmas");
 
-		assertThat(warehouseItemRepository.findByWarehouseAndItem(quartucciu, silicone)).isEmpty();
+		assertThat(warehouseItemRepository.findByWarehouseAndItem(elmas, cementBag)).isEmpty();
 
 		WarehouseItem stock = stockService.updateAvailability(
-				new UpdateAvailabilityCommand(silicone.getId(), quartucciu.getId(), 9));
+				new UpdateAvailabilityCommand(cementBag.getId(), elmas.getId(), 9));
 
 		assertThat(stock.getQuantity()).isEqualTo(9);
-		assertThat(warehouseItemRepository.findByWarehouseAndItem(quartucciu, silicone)).isPresent();
+		assertThat(warehouseItemRepository.findByWarehouseAndItem(elmas, cementBag)).isPresent();
 	}
 
 	@Test

@@ -56,19 +56,9 @@ public class DemoDataSeeder implements CommandLineRunner {
 		Item safetyGlasses = itemRepository.save(new Item("800000000005", "Occhiali protettivi", "SafeView", "DPI"));
 		Item drillBit = itemRepository.save(new Item("800000000006", "Punta trapano 6 mm", "Foratura Sarda", "Utensili"));
 		Item screw = itemRepository.save(new Item("800000000007", "Vite autofilettante 4x40", "Ferramenta Nord", "Viteria"));
-		Item washer = itemRepository.save(new Item("800000000008", "Rondella zincata M8", "Ferramenta Nord", "Bulloneria"));
-		Item cableTie = itemRepository.save(new Item("800000000009", "Fascetta nylon 200 mm", "CableFix", "Materiale elettrico"));
-		Item electricalTape = itemRepository.save(new Item("800000000010", "Nastro isolante nero", "ElettroPro", "Materiale elettrico"));
-		Item silicone = itemRepository.save(new Item("800000000011", "Silicone trasparente", "SealPro", "Sigillanti"));
-		Item paintRoller = itemRepository.save(new Item("800000000012", "Rullo pittura 20 cm", "ColorLine", "Verniciatura"));
-		Item brush = itemRepository.save(new Item("800000000013", "Pennello piatto 50 mm", "ColorLine", "Verniciatura"));
-		Item cementBag = itemRepository.save(new Item("800000000014", "Cemento rapido 5 kg", "EdilSud", "Edilizia"));
-		Item workLight = itemRepository.save(new Item("800000000015", "Lampada da cantiere LED", "LucePro", "Illuminazione"));
-		Item extensionCord = itemRepository.save(new Item("800000000016", "Prolunga 10 m", "ElettroPro", "Materiale elettrico"));
-		Item tapeMeasure = itemRepository.save(new Item("800000000017", "Metro a nastro 5 m", "MisuraPro", "Utensili"));
-		Item level = itemRepository.save(new Item("800000000018", "Livella 40 cm", "MisuraPro", "Utensili"));
-		Item cuttingDisc = itemRepository.save(new Item("800000000019", "Disco taglio metallo", "CutMax", "Utensili"));
-		Item pvcElbow = itemRepository.save(new Item("800000000020", "Gomito PVC 90 gradi", "IdroLine", "Tubature"));
+		Item electricalTape = itemRepository.save(new Item("800000000008", "Nastro isolante nero", "ElettroPro", "Materiale elettrico"));
+		Item cementBag = itemRepository.save(new Item("800000000009", "Cemento rapido 5 kg", "EdilSud", "Edilizia"));
+		Item workLight = itemRepository.save(new Item("800000000010", "Lampada da cantiere LED", "LucePro", "Illuminazione"));
 
 		warehouseItemRepository.save(new WarehouseItem(elmas, bolt, 45));
 		warehouseItemRepository.save(new WarehouseItem(quartucciu, bolt, 20));
@@ -84,22 +74,10 @@ public class DemoDataSeeder implements CommandLineRunner {
 		warehouseItemRepository.save(new WarehouseItem(quartucciu, drillBit, 18));
 		warehouseItemRepository.save(new WarehouseItem(elmas, screw, 300));
 		warehouseItemRepository.save(new WarehouseItem(quartucciu, screw, 180));
-		warehouseItemRepository.save(new WarehouseItem(elmas, washer, 240));
-		warehouseItemRepository.save(new WarehouseItem(quartucciu, washer, 160));
-		warehouseItemRepository.save(new WarehouseItem(elmas, cableTie, 500));
-		warehouseItemRepository.save(new WarehouseItem(quartucciu, cableTie, 300));
 		warehouseItemRepository.save(new WarehouseItem(elmas, electricalTape, 40));
 		warehouseItemRepository.save(new WarehouseItem(quartucciu, electricalTape, 25));
-		warehouseItemRepository.save(new WarehouseItem(elmas, silicone, 22));
-		warehouseItemRepository.save(new WarehouseItem(quartucciu, paintRoller, 16));
-		warehouseItemRepository.save(new WarehouseItem(elmas, brush, 28));
 		warehouseItemRepository.save(new WarehouseItem(quartucciu, cementBag, 14));
 		warehouseItemRepository.save(new WarehouseItem(elmas, workLight, 9));
-		warehouseItemRepository.save(new WarehouseItem(quartucciu, extensionCord, 11));
-		warehouseItemRepository.save(new WarehouseItem(elmas, tapeMeasure, 19));
-		warehouseItemRepository.save(new WarehouseItem(quartucciu, level, 13));
-		warehouseItemRepository.save(new WarehouseItem(elmas, cuttingDisc, 45));
-		warehouseItemRepository.save(new WarehouseItem(quartucciu, pvcElbow, 55));
 
 		LocalDateTime now = LocalDateTime.now();
 
@@ -135,9 +113,9 @@ public class DemoDataSeeder implements CommandLineRunner {
 		recordEvent(cementOrder, null, OrderStatus.REQUIRED, "demo.user", now.minusHours(2));
 		recordEvent(cementOrder, OrderStatus.REQUIRED, OrderStatus.CANCELED, "demo.user", now.minusMinutes(90));
 
-		StockOrder levelOrder = saveOrder(OrderStatus.CANCELED, level, quartucciu, 2);
-		recordEvent(levelOrder, null, OrderStatus.REQUIRED, "demo.user", now.minusMinutes(80));
-		recordEvent(levelOrder, OrderStatus.REQUIRED, OrderStatus.CANCELED, "demo.user", now.minusMinutes(60));
+		StockOrder glassesOrder = saveOrder(OrderStatus.CANCELED, safetyGlasses, quartucciu, 2);
+		recordEvent(glassesOrder, null, OrderStatus.REQUIRED, "demo.user", now.minusMinutes(80));
+		recordEvent(glassesOrder, OrderStatus.REQUIRED, OrderStatus.CANCELED, "demo.user", now.minusMinutes(60));
 	}
 
 	private StockOrder saveOrder(OrderStatus status, Item item, Warehouse warehouse, int quantity) {
