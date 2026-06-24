@@ -52,6 +52,13 @@ Funzionalita disponibili nella POC:
 
 ## Ruoli
 
+Nota temporanea:
+
+* durante `MVP foundation` e ammesso uno switch ruolo simulato per validare il comportamento della UI;
+* la simulazione deve supportare `ADMIN`, `STORE_MANAGER` e `USER`;
+* la simulazione non sostituisce autenticazione, autorizzazione e ownership reali;
+* la simulazione deve essere rimossa quando saranno introdotti utenti persistenti e Spring Security.
+
 ### ADMIN
 
 Puo:
@@ -418,6 +425,7 @@ Vincoli:
 * nessuna transizione e consentita da stato finale;
 * la UI non e l'unico livello di protezione;
 * le regole business devono essere applicate lato server.
+* lo switch ruolo simulato e solo uno strumento POC/dev e non rappresenta sicurezza reale.
 
 ---
 

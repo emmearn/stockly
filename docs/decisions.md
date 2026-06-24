@@ -232,3 +232,32 @@ Questa scelta rispecchia la preferenza progettuale attuale ed e diffusa nei mono
 * Le dipendenze tra layer sono piu facili da leggere.
 * Se il dominio crescera molto, si potra rivalutare una struttura per feature o modulare.
 * Nuove classi devono rispettare il package del layer corrispondente.
+
+---
+
+# ADR-010 - Role Simulation Backend-Side Temporanea
+
+## Decisione
+
+Durante `MVP foundation` Stockly puo usare uno switch ruolo simulato lato backend, salvato in sessione HTTP.
+
+La UI deve consumare un oggetto `Permissions` calcolato lato server invece di leggere direttamente condizioni sparse sul ruolo.
+
+## Motivazione
+
+Serve validare rapidamente il comportamento dell'interfaccia per `ADMIN`, `STORE_MANAGER` e `USER` prima di introdurre Spring Security.
+
+La simulazione backend-side e piu vicina alla futura implementazione reale rispetto a uno switch solo JavaScript.
+
+## Alternative Considerate
+
+* Switch ruolo solo UI con `localStorage`.
+* Login finto con pagina dedicata.
+* Introdurre subito Spring Security.
+
+## Conseguenze
+
+* La UI puo evolvere secondo permessi centralizzati.
+* I template restano piu vicini alla futura logica autorizzativa reale.
+* La simulazione non e sicurezza reale.
+* La simulazione deve essere rimossa quando Spring Security e utenti persistenti saranno attivi.

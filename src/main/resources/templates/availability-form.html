@@ -19,6 +19,13 @@
       <a href="/orders/new">Nuovo ordine</a>
       <a href="/orders">Ordini</a>
     </nav>
+    <form class="role-switch" action="/role-simulation" method="post">
+      <label for="roleSwitchAvailability">Ruolo simulato</label>
+      <select id="roleSwitchAvailability" name="role" onchange="this.form.submit()">
+        <option th:each="role : ${simulatedRoles}" th:value="${role}" th:text="${role.label}"
+                th:selected="${role == currentUser.role}">Admin</option>
+      </select>
+    </form>
   </div>
 </header>
 <main>

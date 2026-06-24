@@ -19,6 +19,13 @@
       <a href="/orders/new">Nuovo ordine</a>
       <a href="/orders">Ordini</a>
     </nav>
+    <form class="role-switch" action="/role-simulation" method="post">
+      <label for="roleSwitchOrders">Ruolo simulato</label>
+      <select id="roleSwitchOrders" name="role" onchange="this.form.submit()">
+        <option th:each="role : ${simulatedRoles}" th:value="${role}" th:text="${role.label}"
+                th:selected="${role == currentUser.role}">Admin</option>
+      </select>
+    </form>
   </div>
 </header>
 <main>
@@ -60,9 +67,11 @@
             <span th:text="${line.quantity}">5</span>
           </div>
         </td>
-        <td>
-          <div class="row-actions order-actions" th:if="${row.order.status.name() == 'REQUIRED'}">
-            <form th:action="@{/orders/{id}/approve(id=${row.order.id})}" method="post">
+        <td class="actions-cell">
+          <div class="row-actions order-actions"
+               th:if="${row.order.status.name() == 'REQUIRED' and (permissions.canApproveOrders or permissions.canCancelAnyOrder or (permissions.canCancelOwnOrder and row.requestedEvent.authorizedByUserId == currentUser.userId))}">
+            <form th:if="${permissions.canApproveOrders}"
+                  th:action="@{/orders/{id}/approve(id=${row.order.id})}" method="post">
               <button class="icon-button success-action" type="submit" aria-label="Approva ordine"
                       title="Approva ordine">
                 <svg aria-hidden="true" viewBox="0 0 24 24">
@@ -70,7 +79,8 @@
                 </svg>
               </button>
             </form>
-            <form th:action="@{/orders/{id}/cancel(id=${row.order.id})}" method="post">
+            <form th:if="${permissions.canCancelAnyOrder or (permissions.canCancelOwnOrder and row.requestedEvent.authorizedByUserId == currentUser.userId)}"
+                  th:action="@{/orders/{id}/cancel(id=${row.order.id})}" method="post">
               <button class="icon-button danger" type="submit" aria-label="Cancella ordine"
                       title="Cancella ordine">
                 <svg aria-hidden="true" viewBox="0 0 24 24">
@@ -80,7 +90,8 @@
               </button>
             </form>
           </div>
-          <div class="row-actions order-actions" th:unless="${row.order.status.name() == 'REQUIRED'}">
+          <div class="row-actions order-actions"
+               th:unless="${row.order.status.name() == 'REQUIRED' and (permissions.canApproveOrders or permissions.canCancelAnyOrder or (permissions.canCancelOwnOrder and row.requestedEvent.authorizedByUserId == currentUser.userId))}">
             <span class="icon-button disabled" aria-label="Nessuna azione disponibile"
                   title="Nessuna azione disponibile">
               <svg aria-hidden="true" viewBox="0 0 24 24">
@@ -128,8 +139,10 @@
         </div>
       </dl>
 
-      <div class="row-actions mobile-actions" th:if="${row.order.status.name() == 'REQUIRED'}">
-        <form th:action="@{/orders/{id}/approve(id=${row.order.id})}" method="post">
+      <div class="row-actions mobile-actions"
+           th:if="${row.order.status.name() == 'REQUIRED' and (permissions.canApproveOrders or permissions.canCancelAnyOrder or (permissions.canCancelOwnOrder and row.requestedEvent.authorizedByUserId == currentUser.userId))}">
+        <form th:if="${permissions.canApproveOrders}"
+              th:action="@{/orders/{id}/approve(id=${row.order.id})}" method="post">
           <button class="icon-button success-action" type="submit" aria-label="Approva ordine"
                   title="Approva ordine">
             <svg aria-hidden="true" viewBox="0 0 24 24">
@@ -137,7 +150,8 @@
             </svg>
           </button>
         </form>
-        <form th:action="@{/orders/{id}/cancel(id=${row.order.id})}" method="post">
+        <form th:if="${permissions.canCancelAnyOrder or (permissions.canCancelOwnOrder and row.requestedEvent.authorizedByUserId == currentUser.userId)}"
+              th:action="@{/orders/{id}/cancel(id=${row.order.id})}" method="post">
           <button class="icon-button danger" type="submit" aria-label="Cancella ordine"
                   title="Cancella ordine">
             <svg aria-hidden="true" viewBox="0 0 24 24">
@@ -147,7 +161,8 @@
           </button>
         </form>
       </div>
-      <div class="row-actions mobile-actions" th:unless="${row.order.status.name() == 'REQUIRED'}">
+      <div class="row-actions mobile-actions order-actions"
+           th:unless="${row.order.status.name() == 'REQUIRED' and (permissions.canApproveOrders or permissions.canCancelAnyOrder or (permissions.canCancelOwnOrder and row.requestedEvent.authorizedByUserId == currentUser.userId))}">
         <span class="icon-button disabled" aria-label="Nessuna azione disponibile"
               title="Nessuna azione disponibile">
           <svg aria-hidden="true" viewBox="0 0 24 24">

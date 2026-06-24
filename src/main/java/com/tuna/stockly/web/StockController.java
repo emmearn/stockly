@@ -7,7 +7,9 @@ import com.tuna.stockly.dto.UpdateAvailabilityForm;
 import com.tuna.stockly.entity.WarehouseItem;
 import com.tuna.stockly.repository.WarehouseItemRepository;
 import com.tuna.stockly.repository.WarehouseRepository;
+import com.tuna.stockly.service.RoleSimulationService;
 import com.tuna.stockly.service.StockService;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,12 +26,14 @@ public class StockController {
 	private final StockService stockService;
 	private final WarehouseItemRepository warehouseItemRepository;
 	private final WarehouseRepository warehouseRepository;
+	private final RoleSimulationService roleSimulationService;
 
 	public StockController(StockService stockService, WarehouseItemRepository warehouseItemRepository,
-			WarehouseRepository warehouseRepository) {
+			WarehouseRepository warehouseRepository, RoleSimulationService roleSimulationService) {
 		this.stockService = stockService;
 		this.warehouseItemRepository = warehouseItemRepository;
 		this.warehouseRepository = warehouseRepository;
+		this.roleSimulationService = roleSimulationService;
 	}
 
 	@GetMapping({ "/", "/stock" })
@@ -44,7 +48,11 @@ public class StockController {
 	}
 
 	@GetMapping("/stock/availability/new")
-	public String newAvailability(Model model) {
+	public String newAvailability(Model model, HttpSession session, RedirectAttributes redirectAttributes) {
+		if (!roleSimulationService.getPermissions(session).canManageStock()) {
+			redirectAttributes.addFlashAttribute("error", "Ruolo simulato non abilitato alla gestione stock.");
+			return "redirect:/stock";
+		}
 		if (!model.containsAttribute("form")) {
 			model.addAttribute("form", new CreateAvailabilityForm());
 		}
@@ -54,7 +62,11 @@ public class StockController {
 
 	@PostMapping("/stock/availability/new")
 	public String createAvailability(@Valid @ModelAttribute("form") CreateAvailabilityForm form,
-			BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes) {
+			BindingResult bindingResult, Model model, RedirectAttributes redirectAttributes, HttpSession session) {
+		if (!roleSimulationService.getPermissions(session).canManageStock()) {
+			redirectAttributes.addFlashAttribute("error", "Ruolo simulato non abilitato alla gestione stock.");
+			return "redirect:/stock";
+		}
 		if (bindingResult.hasErrors()) {
 			addWarehouseOptions(model);
 			return "new-availability-form";
@@ -74,7 +86,12 @@ public class StockController {
 	}
 
 	@GetMapping("/stock/availability/{stockId}/edit")
-	public String editAvailability(@PathVariable Long stockId, Model model) {
+	public String editAvailability(@PathVariable Long stockId, Model model, HttpSession session,
+			RedirectAttributes redirectAttributes) {
+		if (!roleSimulationService.getPermissions(session).canManageStock()) {
+			redirectAttributes.addFlashAttribute("error", "Ruolo simulato non abilitato alla gestione stock.");
+			return "redirect:/stock";
+		}
 		WarehouseItem stock = stockService.getAvailability(stockId);
 		if (!model.containsAttribute("form")) {
 			UpdateAvailabilityForm form = new UpdateAvailabilityForm();
@@ -90,7 +107,11 @@ public class StockController {
 	@PostMapping("/stock/availability/{stockId}/edit")
 	public String updateAvailability(@PathVariable Long stockId,
 			@Valid @ModelAttribute("form") UpdateAvailabilityForm form, BindingResult bindingResult, Model model,
-			RedirectAttributes redirectAttributes) {
+			RedirectAttributes redirectAttributes, HttpSession session) {
+		if (!roleSimulationService.getPermissions(session).canManageStock()) {
+			redirectAttributes.addFlashAttribute("error", "Ruolo simulato non abilitato alla gestione stock.");
+			return "redirect:/stock";
+		}
 		WarehouseItem stock = stockService.getAvailability(stockId);
 		if (bindingResult.hasErrors()) {
 			model.addAttribute("stock", stock);
@@ -111,7 +132,12 @@ public class StockController {
 	}
 
 	@PostMapping("/stock/availability/{stockId}/delete")
-	public String deleteAvailability(@PathVariable Long stockId, RedirectAttributes redirectAttributes) {
+	public String deleteAvailability(@PathVariable Long stockId, RedirectAttributes redirectAttributes,
+			HttpSession session) {
+		if (!roleSimulationService.getPermissions(session).canManageStock()) {
+			redirectAttributes.addFlashAttribute("error", "Ruolo simulato non abilitato alla gestione stock.");
+			return "redirect:/stock";
+		}
 		stockService.deleteAvailability(stockId);
 		redirectAttributes.addFlashAttribute("success", "Disponibilita eliminata.");
 		return "redirect:/stock";

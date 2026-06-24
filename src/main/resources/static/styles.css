@@ -65,6 +65,31 @@ nav {
   gap: 8px;
 }
 
+.role-switch {
+  align-items: center;
+  background: #eef7fa;
+  border: 1px solid #c7dde5;
+  border-radius: 6px;
+  display: flex;
+  gap: 8px;
+  padding: 6px 8px;
+}
+
+.role-switch label {
+  color: #173f4c;
+  font-size: 12px;
+  font-weight: 700;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.role-switch select {
+  background: #ffffff;
+  min-height: 32px;
+  padding: 4px 8px;
+  width: auto;
+}
+
 nav a,
 .button,
 button {
@@ -193,10 +218,6 @@ tr:last-child td {
   border-bottom: 0;
 }
 
-.number {
-  text-align: right;
-}
-
 .status {
   border-radius: 999px;
   display: inline-block;
@@ -231,8 +252,14 @@ tr:last-child td {
   margin: 0;
 }
 
-.actions-column {
+.actions-column,
+.actions-cell {
   width: 150px;
+}
+
+.actions-column,
+.actions-cell {
+  text-align: center;
 }
 
 .row-actions {
@@ -246,8 +273,16 @@ tr:last-child td {
   margin: 0;
 }
 
+.actions-cell .row-actions {
+  display: inline-flex;
+  justify-content: center;
+}
+
 .order-actions {
-  justify-content: flex-start;
+  display: inline-flex;
+  margin: 0;
+  width: 74px;
+  justify-content: center;
 }
 
 .icon-button {
@@ -458,6 +493,15 @@ input {
 
   nav {
     flex-wrap: wrap;
+  }
+
+  .role-switch {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .role-switch select {
+    width: 100%;
   }
 
   h1 {

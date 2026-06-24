@@ -106,6 +106,20 @@ Esempi:
 
 La POC non espone API pubbliche e non ha Spring Security attivo.
 
+## Role Simulation Temporanea
+
+Durante `MVP foundation` puo esistere uno switch ruolo simulato salvato in sessione.
+
+Regole:
+
+* serve solo a validare comportamento UI e flussi POC/dev;
+* non e autenticazione;
+* non e autorizzazione reale;
+* non protegge dati o azioni;
+* non deve essere usato come garanzia di sicurezza;
+* non deve essere abilitato o considerato sufficiente in produzione;
+* deve essere rimosso quando Spring Security e utenti persistenti saranno attivi.
+
 Per il prodotto completo:
 
 * usare Spring Security con form login;
@@ -131,6 +145,7 @@ Minacce da considerare nelle fasi successive:
 * esposizione di stack trace;
 * segreti committati o loggati;
 * H2 console esposta fuori dagli ambienti ammessi.
+* role simulation scambiata per sicurezza reale.
 
 Mitigazioni:
 
@@ -140,6 +155,7 @@ Mitigazioni:
 * logging senza dati sensibili;
 * profili separati;
 * disabilitazione strumenti POC fuori dagli ambienti demo.
+* rimozione role simulation prima della produzione.
 
 ---
 
@@ -157,4 +173,5 @@ Vietato:
 * usare `@Data` sulle entity JPA;
 * lasciare console H2 abilitata in produzione;
 * servire file caricati senza validazione e regole di accesso;
+* usare role simulation come controllo di sicurezza reale;
 * usare la porta `8080` nei test automatici.

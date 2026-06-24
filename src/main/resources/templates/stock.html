@@ -19,6 +19,13 @@
       <a href="/orders/new">Nuovo ordine</a>
       <a href="/orders">Ordini</a>
     </nav>
+    <form class="role-switch" action="/role-simulation" method="post">
+      <label for="roleSwitchStock">Ruolo simulato</label>
+      <select id="roleSwitchStock" name="role" onchange="this.form.submit()">
+        <option th:each="role : ${simulatedRoles}" th:value="${role}" th:text="${role.label}"
+                th:selected="${role == currentUser.role}">Admin</option>
+      </select>
+    </form>
   </div>
 </header>
 <main>
@@ -29,7 +36,9 @@
     </div>
     <div class="actions">
       <a class="button" href="/orders/new">Nuovo ordine</a>
-      <a class="button secondary" href="/stock/availability/new">Nuova disponibilita</a>
+      <a class="button secondary" href="/stock/availability/new" th:if="${permissions.canManageStock}">
+        Nuova disponibilita
+      </a>
     </div>
   </div>
 
@@ -45,7 +54,7 @@
         <th>Marca</th>
         <th>Tipologia</th>
         <th>Magazzino</th>
-        <th class="number">Quantita</th>
+        <th>Quantita</th>
         <th class="actions-column">Azioni</th>
       </tr>
       </thead>
@@ -56,8 +65,8 @@
         <td th:text="${stock.item.brand}">Ferramenta Nord</td>
         <td th:text="${stock.item.type}">Bulloneria</td>
         <td th:text="${stock.warehouse.name}">Elmas</td>
-        <td class="number" th:text="${stock.quantity}">50</td>
-        <td>
+        <td th:text="${stock.quantity}">50</td>
+        <td class="actions-cell">
           <div class="row-actions">
             <div class="image-preview">
               <button class="icon-button" type="button" aria-label="Mostra foto prodotto"
@@ -72,14 +81,16 @@
                 <img src="/product-placeholder.png" alt="Anteprima prodotto">
               </div>
             </div>
-            <a class="icon-button" th:href="@{/stock/availability/{stockId}/edit(stockId=${stock.id})}"
+            <a class="icon-button" th:if="${permissions.canManageStock}"
+               th:href="@{/stock/availability/{stockId}/edit(stockId=${stock.id})}"
                aria-label="Modifica disponibilita" title="Modifica disponibilita">
               <svg aria-hidden="true" viewBox="0 0 24 24">
                 <path d="M4 20h4l10.5-10.5-4-4L4 16v4z"></path>
                 <path d="M13.5 6.5l4 4"></path>
               </svg>
             </a>
-            <form th:action="@{/stock/availability/{stockId}/delete(stockId=${stock.id})}" method="post">
+            <form th:if="${permissions.canManageStock}"
+                  th:action="@{/stock/availability/{stockId}/delete(stockId=${stock.id})}" method="post">
               <button class="icon-button danger" type="submit" aria-label="Elimina disponibilita"
                       title="Elimina disponibilita">
                 <svg aria-hidden="true" viewBox="0 0 24 24">
@@ -137,14 +148,16 @@
             <img src="/product-placeholder.png" alt="Anteprima prodotto">
           </div>
         </div>
-        <a class="icon-button" th:href="@{/stock/availability/{stockId}/edit(stockId=${stock.id})}"
+        <a class="icon-button" th:if="${permissions.canManageStock}"
+           th:href="@{/stock/availability/{stockId}/edit(stockId=${stock.id})}"
            aria-label="Modifica disponibilita" title="Modifica disponibilita">
           <svg aria-hidden="true" viewBox="0 0 24 24">
             <path d="M4 20h4l10.5-10.5-4-4L4 16v4z"></path>
             <path d="M13.5 6.5l4 4"></path>
           </svg>
         </a>
-        <form th:action="@{/stock/availability/{stockId}/delete(stockId=${stock.id})}" method="post">
+        <form th:if="${permissions.canManageStock}"
+              th:action="@{/stock/availability/{stockId}/delete(stockId=${stock.id})}" method="post">
           <button class="icon-button danger" type="submit" aria-label="Elimina disponibilita"
                   title="Elimina disponibilita">
             <svg aria-hidden="true" viewBox="0 0 24 24">

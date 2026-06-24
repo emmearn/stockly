@@ -227,6 +227,32 @@ Componenti:
 * repository collegati;
 * controller e form Thymeleaf.
 
+## Role Simulation
+
+Componente temporaneo per `MVP foundation`.
+
+Obiettivo:
+
+* simulare il comportamento UI per `ADMIN`, `STORE_MANAGER` e `USER`;
+* avvicinare la struttura alla futura integrazione Spring Security;
+* evitare logica ruolo sparsa nei template.
+
+Struttura prevista:
+
+* enum `SimulatedRole`;
+* service `RoleSimulationService`;
+* oggetto view model `Permissions`;
+* endpoint web per cambiare ruolo simulato;
+* ruolo corrente salvato in sessione HTTP.
+
+Regole tecniche:
+
+* i template devono leggere permessi gia calcolati, ad esempio `permissions.canManageStock`;
+* evitare condizioni sparse del tipo `currentRole == 'ADMIN'` nei template;
+* i controller possono usare i permessi simulati per blocchi POC/dev, ma questi blocchi non sono sicurezza reale;
+* il componente deve essere sostituito da `SecurityContext` quando Spring Security sara introdotto;
+* la simulazione non deve essere considerata valida per `prod`.
+
 ## Demo Data
 
 `DemoDataSeeder` crea dati demo solo con profilo `local`, `poc` o `test`.
@@ -456,6 +482,7 @@ Da introdurre per:
 * form;
 * sicurezza web;
 * azioni visibili e invocabili secondo ruolo.
+* role simulation finche non esiste Spring Security.
 
 ## Database nei Test
 

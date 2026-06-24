@@ -223,6 +223,12 @@ Output:
 
 ## P1 - Sicurezza
 
+* `done` Creare enum temporaneo `SimulatedRole`.
+* `done` Creare `RoleSimulationService` basato su sessione HTTP.
+* `done` Creare view model `Permissions` per la UI.
+* `done` Aggiungere switch ruolo simulato nell'header.
+* `done` Applicare permessi simulati a link e azioni UI.
+* `done` Documentare visivamente che lo switch e una simulazione POC/dev.
 * `todo` Aggiungere dipendenza Spring Security.
 * `todo` Creare enum `Role`.
 * `todo` Creare entity `User`.
@@ -302,6 +308,7 @@ Output:
 * `P0 done` Rilanciare verifica dopo refactor package dall'ambiente utente.
 * `P1 done` Rivalutare package structure.
 * `P1 todo` Sostituire `demo.user` con utente autenticato.
+* `P1 todo` Rimuovere role simulation quando Spring Security e attivo.
 * `P1 done` Disabilitare H2 console fuori da `local` e `poc`.
 * `P1 todo` Migliorare gestione errori controller.
 * `P2 todo` Valutare introduzione controllata di Lombok.
