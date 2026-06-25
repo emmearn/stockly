@@ -129,8 +129,6 @@ user
 pdf
 ```
 
-La decisione e registrata in `docs/decisions.md`.
-
 ---
 
 # 3. Layer
@@ -314,7 +312,7 @@ azione cancella -> OrderController -> OrderService -> WarehouseItem -> StockOrde
 
 # 6. Modello Dati
 
-Il modello dati deriva dai requisiti funzionali e dalle decisioni architetturali registrate in `docs/decisions.md`.
+Il modello dati deriva dai requisiti funzionali e dalle scelte architetturali attive di questo documento.
 
 ## Warehouse
 

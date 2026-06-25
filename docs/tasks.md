@@ -7,8 +7,7 @@ Input:
 * `docs/requirements.md`;
 * `docs/architecture.md`;
 * `docs/security.md`;
-* `docs/design.md`, quando i task riguardano UI;
-* `docs/decisions.md`, quando i task derivano da decisioni registrate.
+* `docs/design.md`, quando i task riguardano UI.
 
 Legenda:
 
@@ -210,7 +209,7 @@ Output:
 
 * `done` Rilanciare verifica locale dall'ambiente utente.
 * `done` Decidere struttura package definitiva.
-* `done` Documentare la decisione package in `docs/decisions.md`.
+* `done` Documentare la decisione package nel registro ADR.
 * `done` Aggiornare README con nuova struttura documentale finale.
 
 ## P1 - Fondazione

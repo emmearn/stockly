@@ -83,5 +83,5 @@ Gli ordini demo includono gia stati `REQUIRED`, `APPROVED` e `CANCELED`.
 * `docs/design.md`
 * `docs/security.md`
 * `docs/tasks.md`
-* `docs/prompts.md`
 * `docs/decisions.md`
+* `docs/document_driven_workflow.md`
