@@ -106,7 +106,7 @@ Esempi:
 
 # 4. API Security
 
-La POC non espone API pubbliche e non ha Spring Security attivo.
+Stockly non espone API pubbliche. La sicurezza web usa Spring Security con form login e utenti persistenti.
 
 ## Role Simulation Temporanea
 

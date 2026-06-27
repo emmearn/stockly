@@ -235,7 +235,7 @@ Output:
 * `done` Configurare BCrypt.
 * `done` Implementare login form.
 * `done` Creare bootstrap admin iniziale.
-* `todo` Proteggere `/orders` per ruolo.
+* `done` Proteggere `/orders` per ruolo.
 * `todo` Applicare ownership ordini lato service.
 
 ## P1 - Stock

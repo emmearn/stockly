@@ -19,7 +19,10 @@ public class SecurityConfig {
 	@ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
-				.authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll())
+				.authorizeHttpRequests(authorize -> authorize
+						.requestMatchers("/orders/*/approve").hasAnyRole("ADMIN", "STORE_MANAGER")
+						.requestMatchers("/orders/**").hasAnyRole("ADMIN", "STORE_MANAGER", "USER")
+						.anyRequest().permitAll())
 				.formLogin(formLogin -> formLogin
 						.loginPage("/login")
 						.permitAll())
