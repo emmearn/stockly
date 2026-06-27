@@ -228,12 +228,12 @@ Output:
 * `done` Aggiungere switch ruolo simulato nell'header.
 * `done` Applicare permessi simulati a link e azioni UI.
 * `done` Documentare visivamente che lo switch e una simulazione POC/dev.
-* `todo` Aggiungere dipendenza Spring Security.
-* `todo` Creare enum `Role`.
-* `todo` Creare entity `User`.
-* `todo` Creare repository utenti.
-* `todo` Configurare BCrypt.
-* `todo` Implementare login form.
+* `done` Aggiungere dipendenza Spring Security.
+* `done` Creare enum `Role`.
+* `done` Creare entity `User`.
+* `done` Creare repository utenti.
+* `done` Configurare BCrypt.
+* `done` Implementare login form.
 * `todo` Creare bootstrap admin iniziale.
 * `todo` Proteggere `/orders` per ruolo.
 * `todo` Applicare ownership ordini lato service.

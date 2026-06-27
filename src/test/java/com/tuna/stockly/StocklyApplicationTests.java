@@ -10,10 +10,12 @@ import com.tuna.stockly.repository.WarehouseRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 
 @ActiveProfiles("test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.NONE)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_CLASS)
 class StocklyApplicationTests {
 
 	@Autowired
@@ -39,7 +41,7 @@ class StocklyApplicationTests {
 	void loadsDemoData() {
 		assertThat(warehouseRepository.count()).isEqualTo(2);
 		assertThat(itemRepository.count()).isEqualTo(10);
-		assertThat(warehouseItemRepository.count()).isEqualTo(16);
+		assertThat(warehouseItemRepository.count()).isEqualTo(18);
 		assertThat(stockOrderRepository.count()).isEqualTo(10);
 		assertThat(orderStatusEventRepository.count()).isEqualTo(16);
 	}

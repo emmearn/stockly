@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Stockly - Login</title>
+  <link rel="icon" href="/stockly-logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<header>
+  <div class="topbar">
+    <a class="brand" href="/stock">
+      <img class="brand-logo" src="/stockly-logo.svg" alt="" aria-hidden="true">
+      <span>Stockly</span>
+    </a>
+  </div>
+</header>
+<main class="auth-main">
+  <div class="page-title auth-title">
+    <div>
+      <h1>Accesso</h1>
+      <p class="muted">Accedi con le credenziali Stockly.</p>
+    </div>
+  </div>
+
+  <div class="alert error" th:if="${param.error}">
+    Credenziali non valide.
+  </div>
+  <div class="alert success" th:if="${param.logout}">
+    Sessione terminata.
+  </div>
+
+  <form class="form-panel auth-panel" action="/login" method="post">
+    <div class="field">
+      <label for="username">Username</label>
+      <input id="username" name="username" type="text" autocomplete="username" required autofocus>
+    </div>
+
+    <div class="field">
+      <label for="password">Password</label>
+      <input id="password" name="password" type="password" autocomplete="current-password" required>
+    </div>
+
+    <div class="actions">
+      <button type="submit">Accedi</button>
+    </div>
+  </form>
+</main>
+</body>
+</html>

@@ -399,6 +399,18 @@ tr:last-child td {
   padding: 20px;
 }
 
+.auth-main {
+  max-width: 520px;
+}
+
+.auth-title {
+  margin-bottom: 16px;
+}
+
+.auth-panel {
+  max-width: 100%;
+}
+
 .field {
   margin-bottom: 16px;
 }
