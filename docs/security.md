@@ -27,7 +27,9 @@ Variabili future previste:
 * `DATABASE_USERNAME`;
 * `DATABASE_PASSWORD`;
 * `SPRING_PROFILES_ACTIVE`;
-* eventuali credenziali admin iniziali.
+* `STOCKLY_BOOTSTRAP_ADMIN_USERNAME`;
+* `STOCKLY_BOOTSTRAP_ADMIN_PASSWORD`;
+* `STOCKLY_BOOTSTRAP_ADMIN_DISPLAY_NAME`, opzionale.
 
 ---
 

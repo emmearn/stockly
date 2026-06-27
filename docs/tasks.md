@@ -234,7 +234,7 @@ Output:
 * `done` Creare repository utenti.
 * `done` Configurare BCrypt.
 * `done` Implementare login form.
-* `todo` Creare bootstrap admin iniziale.
+* `done` Creare bootstrap admin iniziale.
 * `todo` Proteggere `/orders` per ruolo.
 * `todo` Applicare ownership ordini lato service.
 
